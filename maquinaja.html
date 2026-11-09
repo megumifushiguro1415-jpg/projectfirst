@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MáquinaJá – Máquinas, ferramentas e serviços para aluguel e venda</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#ededed;--card:#fff;--ink:#2b2b2b;--muted:#767676;--line:#e3e3e3;
+  --hd:#ffe600;--hd-ink:#2b2b2b;--blue:#2968c8;--green:#0a8f4d;--red:#d93b3b;
+  --t1:#e8f0fc;--t2:#e6f5ec;--t3:#fdf0e1;--ico:#4a6286;--gbg:#e3f5ea;
+  --foot:#333;--foot-ink:#cfcfcf;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121417;--card:#1c2026;--ink:#eceff1;--muted:#9ba3ab;--line:#2c333b;--gbg:#14301f;
+  --blue:#6aa0f5;--green:#4ccb8a;--red:#f07a7a;--t1:#1d2a40;--t2:#173325;--t3:#3a2b17;--ico:#9db6dc;--foot:#0c0e10;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121417;--card:#1c2026;--ink:#eceff1;--muted:#9ba3ab;--line:#2c333b;--gbg:#14301f;--blue:#6aa0f5;--green:#4ccb8a;--red:#f07a7a;--t1:#1d2a40;--t2:#173325;--t3:#3a2b17;--ico:#9db6dc;--foot:#0c0e10;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 120px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+body.lock{overflow:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:30}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
+.w{max-width:1240px;margin:0 auto;padding:0 16px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+svg.i{fill:none;stroke:var(--ico);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ck{width:15px;height:15px;color:var(--green);flex:none}
+
+header{background:var(--hd);color:var(--hd-ink);position:sticky;top:env(safe-area-inset-top,0px);z-index:20;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:10px 0 6px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:22px;letter-spacing:-.02em}
+.logo svg{width:30px;height:30px}
+.sb{display:flex;background:#fff;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);overflow:hidden;max-width:680px;width:100%}
+.sb input{flex:1;border:0;padding:11px 14px;font:inherit;color:#2b2b2b;background:transparent;outline:none;min-width:0}
+.sb button{border:0;border-left:1px solid #e3e3e3;background:#fff;padding:0 16px;cursor:pointer;color:#555;display:grid;place-items:center}
+.acc{display:flex;gap:18px;font-size:14px;white-space:nowrap}
+.sub{display:flex;gap:22px;font-size:13.5px;padding:2px 0 9px;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.sub a{opacity:.85;cursor:pointer}.sub a:hover{opacity:1}.sub .cep{margin-left:auto;opacity:.75}
+@media(max-width:820px){.top{grid-template-columns:1fr auto}.sb{grid-column:1/-1;order:3;max-width:none}.acc a:not(.pri){display:none}.sub .cep{display:none}}
+
+.hero{margin-top:16px;display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.ban{border-radius:6px;padding:34px 36px;min-height:210px;color:#fff;background:linear-gradient(110deg,#1b3f86,#2968c8 60%,#4a8be0);display:flex;flex-direction:column;justify-content:center;gap:12px}
+.ban h1{margin:0;font-size:clamp(26px,3.6vw,38px);line-height:1.1;letter-spacing:-.02em;max-width:20ch}
+.ban p{margin:0;opacity:.92;max-width:46ch}
+.cta{align-self:flex-start;background:#fff;color:var(--blue);font-weight:600;padding:10px 20px;border-radius:4px;border:0;cursor:pointer}
+.side2{display:grid;gap:12px}
+.mini{background:var(--card);border-radius:6px;padding:18px;display:flex;gap:14px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.mini svg{width:42px;height:42px;flex:none}.mini b{font-size:16px;display:block}.mini span{color:var(--muted);font-size:13.5px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.ban{padding:26px 22px}}
+
+.cats{margin-top:14px;background:var(--card);border-radius:6px;padding:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.cat{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;padding:8px 2px;border-radius:6px;font-size:12.5px;text-align:center;line-height:1.2}
+.cat:hover{background:var(--bg)}
+.cat .c{width:48px;height:48px;border-radius:50%;background:var(--t1);display:grid;place-items:center}.cat svg{width:26px;height:26px}
+@media(max-width:820px){.cats{grid-template-columns:repeat(4,1fr)}}
+
+.layout{display:grid;grid-template-columns:240px 1fr;gap:18px;margin-top:22px;align-items:start}
+aside{background:var(--card);border-radius:6px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.08);position:sticky;top:calc(env(safe-area-inset-top,0px) + 112px);max-height:calc(100vh - 130px);overflow:auto}
+aside h4{margin:14px 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
+aside h4:first-child{margin-top:0}
+.fi{display:flex;justify-content:space-between;width:100%;background:none;border:0;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:14px;text-align:left}
+.fi:hover{background:var(--bg)}.fi[aria-pressed="true"]{background:var(--t1);color:var(--blue);font-weight:600}
+.fi small{color:var(--muted)}
+.clr{margin-top:12px;background:none;border:0;color:var(--blue);cursor:pointer;font-size:13.5px;padding:4px 8px}
+.filt{display:none;width:100%;margin-bottom:10px;padding:10px;border:1px solid var(--line);background:var(--card);border-radius:6px;cursor:pointer;font-weight:500}
+@media(max-width:820px){.layout{grid-template-columns:1fr}aside{display:none;position:static;max-height:none}aside.open{display:block}.filt{display:block}}
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.bar h2{margin:0;font-size:21px;font-weight:600}
+select,input[type=number]{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:7px 10px;font:inherit;font-size:13.5px}
+.res{color:var(--muted);font-size:13.5px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pc{background:var(--card);border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.1);position:relative;display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s;cursor:pointer}
+.pc:hover{box-shadow:0 6px 18px rgba(0,0,0,.18);transform:translateY(-2px)}
+.img{height:150px;display:grid;place-items:center}.img svg{width:78px;height:78px}
+.tint1{background:var(--t1)}.tint2{background:var(--t2)}.tint3{background:var(--t3)}
+.fav{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;border:0;background:var(--card);cursor:pointer;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.fav svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2.2}
+.fav[aria-pressed="true"] svg{fill:var(--red);stroke:var(--red)}
+.inf{padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px;flex:1;border-top:1px solid var(--line)}
+.kind{font-size:12px;font-weight:600;color:var(--blue)}
+.nm{font-size:14.5px;line-height:1.3;margin:2px 0 4px;font-weight:400}
+.old{color:var(--muted);text-decoration:line-through;font-size:13px}
+.pr{font-size:23px;font-weight:500;letter-spacing:-.01em}.pr small{font-size:13px;color:var(--muted);font-weight:400}
+.off,.ins{color:var(--green);font-size:13px}.off{font-weight:500}
+.ship{color:var(--green);font-size:12.5px;font-weight:600;margin-top:4px}
+.sel{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12.5px;margin-top:6px}.st{color:#3483fa}
+.vf{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green);font-weight:500;margin-top:6px}
+.empty{grid-column:1/-1;background:var(--card);border-radius:6px;padding:48px;text-align:center;color:var(--muted)}
+
+.trust{margin-top:30px;background:var(--card);border-radius:6px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.trust div{padding:20px 20px;display:flex;gap:12px;align-items:flex-start}
+.trust div+div{border-left:1px solid var(--line)}
+.trust div:first-child{background:var(--gbg);border-radius:6px 0 0 6px}
+.trust svg{width:34px;height:34px;flex:none}.trust b{display:block;font-size:15px}.trust span{color:var(--muted);font-size:13.5px}
+@media(max-width:900px){.trust{grid-template-columns:1fr 1fr}.trust div+div{border-left:0}.trust div:first-child{grid-column:1/-1;border-radius:6px 6px 0 0}}
+.sell{margin-top:12px;border-radius:6px;background:var(--hd);color:#2b2b2b;padding:26px 30px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.sell h3{margin:0;font-size:22px;letter-spacing:-.01em}.sell p{margin:4px 0 10px}
+.sell .cta{background:var(--blue);color:#fff}
+.stp{display:flex;gap:8px;flex-wrap:wrap}.stp span{background:rgba(255,255,255,.65);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+footer{background:var(--foot);color:var(--foot-ink);margin-top:36px;padding:34px 0 28px;font-size:13.5px}
+.fc{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.fc b{display:block;color:#fff;margin-bottom:10px}.fc a{display:block;padding:3px 0;opacity:.85}
+.cp{border-top:1px solid #4a4a4a;margin-top:24px;padding-top:16px;color:#999;font-size:12.5px}
+@media(max-width:700px){.fc{grid-template-columns:1fr 1fr}}
+
+/* detalhes */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;display:none;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 12px) 12px 12px}
+.ov.open{display:block}
+.md{background:var(--card);border-radius:8px;max-width:1000px;margin:8px auto;position:relative}
+.x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:0;background:var(--bg);cursor:pointer;font-size:20px;line-height:1;z-index:2}
+.mg{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;padding:24px}
+.gal{border-radius:6px;height:300px;display:grid;place-items:center}.gal svg{width:150px;height:150px}
+.th{display:flex;gap:8px;margin-top:8px}.th div{flex:1;height:54px;border-radius:5px;display:grid;place-items:center}.th svg{width:28px;height:28px}
+.mg h2{margin:4px 0 6px;font-size:24px;line-height:1.2;font-weight:600;padding-right:34px}
+.rt{color:var(--muted);font-size:13.5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.big{font-size:34px;font-weight:500;margin:12px 0 2px;letter-spacing:-.02em}.big small{font-size:15px;color:var(--muted)}
+.calc{background:var(--bg);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:14px}
+.calc input{width:70px;margin:0 6px}.calc strong{font-size:18px}
+.btn{display:block;width:100%;border:0;border-radius:6px;padding:13px;font-weight:600;cursor:pointer;font-size:15px;margin-top:8px;background:var(--blue);color:#fff}
+.btn.sec{background:var(--t1);color:var(--blue)}
+.safe{display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:13px;color:var(--muted)}.safe svg{width:20px;height:20px;flex:none;margin-top:1px}
+.mb{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;padding:4px 24px 26px;border-top:1px solid var(--line)}
+.mb h3{font-size:16px;margin:20px 0 8px;font-weight:600}.mb p{margin:0;color:var(--ink)}
+.sp{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:14px}
+.sp div{padding:8px 12px;border-bottom:1px solid var(--line)}.sp div:nth-child(4n+1),.sp div:nth-child(4n+2){background:var(--bg)}.sp div:nth-child(odd){color:var(--muted)}
+.ql{list-style:none;margin:0;padding:0;display:grid;gap:8px}.ql li{display:flex;gap:8px;align-items:flex-start}
+.sc{border:1px solid var(--line);border-radius:6px;padding:16px;margin-top:20px}
+.sh{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.av{width:46px;height:46px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:600}
+.sh b{display:block}.sh span{font-size:13px;color:var(--muted)}
+.rv{border-top:1px solid var(--line);padding:10px 0;font-size:14px}.rv b{font-size:13.5px}.rv .st{margin-right:6px}
+@media(max-width:760px){.mg,.mb{grid-template-columns:1fr}.gal{height:210px}.gal svg{width:110px;height:110px}}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:#222;color:#fff;padding:12px 18px;border-radius:6px;z-index:60;font-size:14px;max-width:90vw;display:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="veh" viewBox="0 0 64 64"><rect x="6" y="24" width="30" height="18" rx="2"/><path d="M36 30h11l9 7v5H36z"/><circle cx="17" cy="46" r="7"/><circle cx="46" cy="46" r="7"/></symbol>
+ <symbol id="gear" viewBox="0 0 64 64"><circle cx="32" cy="32" r="19" stroke-width="7" stroke-dasharray="7.46 7.46"/><circle cx="32" cy="32" r="14"/><circle cx="32" cy="32" r="5"/></symbol>
+ <symbol id="tool" viewBox="0 0 64 64"><path d="M44 10a11 11 0 0 0-10 15L13 46a5 5 0 0 0 7 7l21-21a11 11 0 0 0 15-10l-7 7-6-1-1-6z"/></symbol>
+ <symbol id="bolt" viewBox="0 0 64 64"><rect x="8" y="16" width="48" height="32" rx="3"/><path d="M35 21l-9 13h9l-5 11 13-16h-9z"/><path d="M16 52v4M48 52v4"/></symbol>
+ <symbol id="drop" viewBox="0 0 64 64"><path d="M32 8C24 20 16 28 16 38a16 16 0 0 0 32 0C48 28 40 20 32 8z"/><path d="M24 40a8 8 0 0 0 8 8"/></symbol>
+ <symbol id="leaf" viewBox="0 0 64 64"><path d="M12 52C12 28 28 12 52 12c0 24-16 40-40 40z"/><path d="M12 52L38 26"/></symbol>
+ <symbol id="drill" viewBox="0 0 64 64"><path d="M8 18h34v14H8zM42 22h14M20 32v20h10V32"/></symbol>
+ <symbol id="roller" viewBox="0 0 64 64"><rect x="10" y="10" width="38" height="14" rx="2"/><path d="M48 17h6v14H32v10M28 41h8v14h-8z"/></symbol>
+ <symbol id="ac" viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="20" rx="3"/><path d="M16 26h32M16 42v8M32 42v12M48 42v8"/></symbol>
+ <symbol id="cloud" viewBox="0 0 64 64"><circle cx="32" cy="24" r="14"/><path d="M32 38v18M24 56h16M24 22c4-6 12-6 16 0"/></symbol>
+ <symbol id="spray" viewBox="0 0 64 64"><path d="M18 26h20v28H18zM22 26v-9h12v9M38 20h14M44 12l4 4M44 28l6 2"/></symbol>
+ <symbol id="shield" viewBox="0 0 64 64"><path d="M32 8l20 8v14c0 14-9 22-20 26-11-4-20-12-20-26V16z"/><path d="M23 32l7 7 12-14"/></symbol>
+ <symbol id="chat" viewBox="0 0 64 64"><path d="M10 14h44v30H28l-12 10v-10h-6z"/><path d="M20 26h24M20 34h14"/></symbol>
+ <symbol id="star" viewBox="0 0 64 64"><path d="M32 8l7 16 17 2-13 12 4 17-15-9-15 9 4-17L8 26l17-2z"/></symbol>
+ <symbol id="face" viewBox="0 0 64 64"><path d="M10 22V12h10M44 12h10v10M54 42v10H44M20 52H10V42"/><circle cx="32" cy="28" r="8"/><path d="M20 46c2-8 22-8 24 0"/></symbol>
+ <symbol id="ckk" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor"/><path d="M4.5 8.2l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header><div class="w">
+ <div class="top">
+  <a class="logo" href="#"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2b2b2b"/><path d="M7 23V10l9 8 9-8v13" fill="none" stroke="#ffe600" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/></svg>MáquinaJá</a>
+  <form class="sb" id="busca" role="search"><input id="q" type="search" placeholder="Buscar máquinas, ferramentas e serviços" aria-label="Buscar"><button aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button></form>
+  <div class="acc"><a href="#">Criar conta</a><a href="#">Entrar</a><a href="#" class="pri">Minhas compras</a></div>
+ </div>
+ <nav class="sub"><a data-go="todos">Categorias</a><a data-go="aluguel">Aluguel</a><a data-go="venda">Venda</a><a data-go="servico">Serviços</a><a href="#seg">Segurança</a><a href="#vender">Anunciar</a><a href="#">Ajuda</a><span class="cep">Informe seu CEP</span></nav>
+</div></header>
+
+<main class="w">
+ <div class="hero">
+  <div class="ban"><h1>Máquinas, ferramentas e serviços de quem você pode confiar</h1><p>Da lavadora de alta pressão ao trator: alugue, compre ou contrate. Todo anunciante passa por verificação de identidade.</p><button class="cta" data-go="todos">Ver anúncios</button></div>
+  <div class="side2">
+   <div class="mini"><svg class="i"><use href="#face"/></svg><div><b>Anunciantes verificados</b><span>Documento e reconhecimento facial antes de anunciar.</span></div></div>
+   <div class="mini"><svg class="i"><use href="#shield"/></svg><div><b>Compra protegida</b><span>O pagamento só é liberado após a confirmação.</span></div></div>
+  </div>
+ </div>
+ <div class="cats" id="cats"></div>
+
+ <div class="layout">
+  <div>
+   <button class="filt" id="filt">Filtros e categorias</button>
+   <aside id="aside"></aside>
+  </div>
+  <section>
+   <div class="bar"><h2 id="ttl">Anúncios em destaque</h2>
+    <select id="ord" aria-label="Ordenar"><option value="rel">Mais relevantes</option><option value="asc">Menor preço</option><option value="desc">Maior preço</option></select></div>
+   <p class="res" id="res"></p>
+   <div class="grid" id="grid" aria-live="polite"></div>
+  </section>
+ </div>
+
+ <div class="trust" id="seg">
+  <div><svg class="i"><use href="#face"/></svg><span><b>Identidade verificada</b>Quem anuncia confirma dados pessoais, envia documento com foto e passa por reconhecimento facial.</span></div>
+  <div><svg class="i"><use href="#shield"/></svg><span><b>Compra protegida</b>Pagamento liberado só após a confirmação do negócio.</span></div>
+  <div><svg class="i"><use href="#star"/></svg><span><b>Vendedores avaliados</b>Reputação e histórico em cada anúncio.</span></div>
+  <div><svg class="i"><use href="#chat"/></svg><span><b>Chat direto</b>Combine tudo dentro da plataforma.</span></div>
+ </div>
+ <div class="sell" id="vender"><div><h3>Tem uma máquina parada ou um serviço para oferecer?</h3><p>Crie seu anúncio grátis. Para a segurança de todos, primeiro verificamos você:</p><div class="stp"><span>1 · Dados pessoais</span><span>2 · Foto do documento</span><span>3 · Reconhecimento facial</span></div></div><button class="cta" data-toast="Protótipo: aqui começaria a verificação de identidade.">Anunciar grátis</button></div>
+</main>
+
+<footer><div class="w">
+ <div class="fc">
+  <div><b>Sobre</b><a href="#">Quem somos</a><a href="#">Trabalhe conosco</a><a href="#">Imprensa</a></div>
+  <div><b>Comprar e alugar</b><a href="#">Como funciona</a><a href="#">Formas de pagamento</a><a href="#">Compra protegida</a></div>
+  <div><b>Anunciar</b><a href="#">Criar anúncio</a><a href="#">Verificação de identidade</a><a href="#">Dicas de segurança</a></div>
+  <div><b>Ajuda</b><a href="#">Central de ajuda</a><a href="#">Termos e condições</a><a href="#">Privacidade</a></div>
+ </div>
+ <div class="cp">© 2026 MáquinaJá · Protótipo acadêmico com anúncios, pessoas e dados fictícios.</div>
+</div></footer>
+
+<div class="ov" id="ov"><div class="md" id="md" role="dialog" aria-modal="true" aria-label="Detalhes do anúncio"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const MC=[["agricola","Agrícolas","veh"],["construcao","Construção","gear"],["limpeza","Lavagem e limpeza","spray"],["jardim","Jardinagem","leaf"],["ferramentas","Ferramentas elétricas","drill"],["energia","Energia e geradores","bolt"],["transporte","Transporte e carga","veh"],["eventos","Eventos e alimentação","cloud"]];
+const SC=[["s-eletrica","Elétrica","bolt"],["s-mecanica","Mecânica","tool"],["s-reforma","Reforma e obras","roller"],["s-solda","Soldagem e serralheria","tool"],["s-limpeza","Limpeza e conservação","spray"],["s-jardim","Jardinagem e paisagismo","leaf"],["s-hidraulica","Hidráulica","drop"],["s-clima","Climatização","ac"]];
+const CN={};[...MC,...SC].forEach(c=>CN[c[0]]=c);
+const STRIP=["agricola","construcao","limpeza","jardim","ferramentas","s-eletrica","s-mecanica","s-reforma"];
+// t=tipo k=categoria i=ícone n=nome p=preço o=preço antigo u=unidade c=cidade r=nota v=vendas d=descrição sp=especificações q=qualificações
+const ads=[
+{t:"aluguel",k:"agricola",i:"veh",n:"Trator agrícola 75 cv com implementos",p:650,u:"/dia",c:"Maringá, PR",r:4.9,v:312,d:"Trator 4x4 revisado, ideal para preparo de solo, plantio e transporte. Grade e carreta disponíveis mediante combinação.",sp:"Ano:2018|Potência:75 cv|Tração:4x4|Horas de uso:2.100 h"},
+{t:"venda",k:"agricola",i:"spray",n:"Pulverizador costal motorizado 20 L",p:1890,u:"",c:"Londrina, PR",r:4.7,v:96,d:"Pulverizador de mochila com motor 2 tempos, bom para pequenas lavouras, pomares e hortas.",sp:"Capacidade:20 litros|Motor:2 tempos|Estado:Novo|Garantia:12 meses"},
+{t:"aluguel",k:"construcao",i:"veh",n:"Retroescavadeira CAT 416 com operador",p:950,u:"/dia",c:"Londrina, PR",r:4.8,v:187,d:"Retroescavadeira com operador experiente para valas, terraplenagem e carregamento. Mínimo de 1 diária.",sp:"Ano:2020|Horas de uso:1.450 h|Operador:Incluso|Combustível:Por conta do locatário"},
+{t:"venda",k:"construcao",i:"gear",n:"Betoneira 400 L trifásica seminova",p:4300,o:4890,u:"",c:"Sarandi, PR",r:4.6,v:73,d:"Betoneira de 400 litros em ótimo estado, pouco uso, motor trifásico e coroa em bom estado.",sp:"Capacidade:400 L|Motor:Trifásico 2 cv|Ano:2022|Estado:Seminova"},
+{t:"aluguel",k:"construcao",i:"drill",n:"Martelete rompedor 1500 W",p:85,u:"/dia",c:"Maringá, PR",r:4.8,v:204,d:"Rompedor elétrico para demolir pisos, paredes e abrir canaletas. Acompanha ponteiros e talhadeira.",sp:"Potência:1.500 W|Tensão:220 V|Acessórios:Ponteiro e talhadeira|Caução:Sim"},
+{t:"aluguel",k:"limpeza",i:"spray",n:"Lavadora de alta pressão 2200 psi para carros e calçadas",p:75,u:"/dia",c:"Maringá, PR",r:4.9,v:468,d:"Lavadora potente para lavar veículos, calçadas, fachadas e pátios. Acompanha mangueira de 8 m, lança e bico regulável.",sp:"Pressão:2.200 psi|Potência:1.800 W|Tensão:127 V|Mangueira:8 metros"},
+{t:"venda",k:"limpeza",i:"spray",n:"Lavadora de alta pressão 1800 W residencial",p:649,o:749,u:"",c:"Paiçandu, PR",r:4.8,v:331,d:"Lavadora compacta para uso doméstico, boa para carros, motos e quintais. Nova, na caixa, com nota fiscal.",sp:"Pressão:1.800 psi|Potência:1.500 W|Estado:Nova|Garantia:12 meses"},
+{t:"aluguel",k:"limpeza",i:"spray",n:"Aspirador de pó e água industrial 60 L",p:55,u:"/dia",c:"Sarandi, PR",r:4.7,v:119,d:"Aspirador industrial para obras, oficinas e limpeza de estofados. Aspira pó e líquidos.",sp:"Capacidade:60 litros|Potência:1.600 W|Tensão:220 V|Uso:Pó e água"},
+{t:"aluguel",k:"jardim",i:"leaf",n:"Cortador de grama a gasolina autopropelido",p:70,u:"/dia",c:"Marialva, PR",r:4.8,v:142,d:"Cortador com tração, indicado para gramados grandes. Entregue com tanque cheio e regulagem de altura.",sp:"Motor:4 tempos 160 cc|Largura de corte:46 cm|Tração:Autopropelido|Recolhedor:Sim"},
+{t:"venda",k:"jardim",i:"leaf",n:"Roçadeira costal a gasolina 52 cc",p:1190,u:"",c:"Mandaguari, PR",r:4.6,v:88,d:"Roçadeira profissional para capina e limpeza de terrenos. Acompanha cabeçote de fio, lâmina e cinto.",sp:"Cilindrada:52 cc|Estado:Nova|Peso:8,5 kg|Garantia:6 meses"},
+{t:"aluguel",k:"jardim",i:"leaf",n:"Motosserra 45 cc com sabre de 16 polegadas",p:90,u:"/dia",c:"Apucarana, PR",r:4.7,v:76,d:"Motosserra para poda e corte de lenha, com corrente afiada e kit de EPI básico no aluguel.",sp:"Cilindrada:45 cc|Sabre:16 pol|Corrente:Afiada|EPI:Luvas e óculos"},
+{t:"venda",k:"ferramentas",i:"drill",n:"Furadeira de impacto 13 mm 650 W",p:289,o:339,u:"",c:"Maringá, PR",r:4.8,v:604,d:"Furadeira de impacto para alvenaria, madeira e metal, com maleta e jogo de brocas.",sp:"Potência:650 W|Mandril:13 mm|Estado:Nova|Garantia:12 meses"},
+{t:"venda",k:"ferramentas",i:"bolt",n:"Máquina de solda inversora 200 A",p:1290,o:1490,u:"",c:"Londrina, PR",r:4.9,v:157,d:"Inversora bivolt para eletrodo revestido e TIG. Leve, portátil, acompanha máscara e cabos.",sp:"Corrente:200 A|Tensão:Bivolt|Processo:Eletrodo e TIG|Garantia:12 meses"},
+{t:"venda",k:"ferramentas",i:"gear",n:"Compressor de ar 100 L 2 HP profissional",p:2190,o:2590,u:"",c:"Maringá, PR",r:4.8,v:152,d:"Compressor de pistão para pintura, pneumáticos e oficina. Funciona perfeitamente, com manômetro novo.",sp:"Reservatório:100 litros|Motor:2 HP|Pressão:140 psi|Tensão:220 V"},
+{t:"aluguel",k:"energia",i:"bolt",n:"Gerador diesel silenciado 150 kVA",p:480,u:"/dia",c:"Curitiba, PR",r:4.8,v:96,d:"Gerador em cabine silenciada para obras, eventos e emergências. Entrega e instalação sob consulta.",sp:"Potência:150 kVA|Combustível:Diesel|Partida:Automática|Cabine:Silenciada"},
+{t:"venda",k:"energia",i:"bolt",n:"Gerador portátil a gasolina 5 kVA",p:3890,u:"",c:"Cascavel, PR",r:4.7,v:64,d:"Gerador portátil com partida elétrica, ótimo para casas, comércios e pequenos eventos.",sp:"Potência:5 kVA|Partida:Elétrica|Autonomia:8 horas|Estado:Novo"},
+{t:"venda",k:"transporte",i:"veh",n:"Caminhão basculante 6x4 2015 revisado",p:187000,o:199000,u:"",c:"Cascavel, PR",r:4.7,v:41,d:"Caminhão basculante com revisão completa, pneus novos e documentação em dia. Aceita avaliação mecânica.",sp:"Ano:2015|Quilometragem:310 mil km|Tração:6x4|Documentação:Em dia"},
+{t:"aluguel",k:"transporte",i:"veh",n:"Empilhadeira elétrica 2,5 toneladas",p:320,u:"/dia",c:"Paiçandu, PR",r:4.7,v:64,d:"Empilhadeira elétrica para galpões e depósitos, com bateria carregada. Operador habilitado mediante contratação.",sp:"Capacidade:2,5 t|Ano:2019|Horas de uso:3.200 h|Elevação:4,5 m"},
+{t:"aluguel",k:"eventos",i:"cloud",n:"Máquina de algodão-doce profissional",p:120,u:"/dia",c:"Maringá, PR",r:4.9,v:233,d:"Máquina de algodão-doce para festas e eventos. Acompanha cone de teste e açúcar para o primeiro dia.",sp:"Tensão:127 V|Produção:60 por hora|Acompanha:Açúcar inicial|Montagem:Simples"},
+{t:"servico",k:"s-eletrica",i:"bolt",n:"Eletricista industrial com laudo técnico",p:120,u:"/hora",c:"Londrina, PR",r:4.9,v:171,d:"Instalações, quadros de comando, painéis e manutenção elétrica em indústrias, comércios e residências.",q:"Técnico em Eletrotécnica (SENAI)|NR-10 e NR-35 válidas|11 anos de experiência|Emite laudo e ART quando necessário"},
+{t:"servico",k:"s-mecanica",i:"tool",n:"Manutenção de máquinas pesadas em campo",p:180,u:"/visita",c:"Apucarana, PR",r:4.9,v:240,d:"Mecânico atende no local da obra ou propriedade: diagnóstico, troca de óleo, hidráulica e reparos.",q:"Técnico em Mecânica Industrial|Especialista em máquinas agrícolas|14 anos de experiência|Atendimento em até 24 h"},
+{t:"servico",k:"s-reforma",i:"roller",n:"Pintura residencial e comercial",p:35,u:"/m²",c:"Maringá, PR",r:4.8,v:312,d:"Pintura interna e externa com preparo de parede, massa corrida e acabamento. Orçamento sem compromisso.",q:"Curso profissionalizante de pintura|8 anos de experiência|Equipe de 3 pintores|Mais de 400 obras concluídas"},
+{t:"servico",k:"s-reforma",i:"gear",n:"Reformas e pequenas obras com pedreiro",p:160,u:"/dia",c:"Sarandi, PR",r:4.7,v:198,d:"Pisos, reboco, muros, banheiros e cozinhas. Atende reformas completas ou serviços avulsos.",q:"Pedreiro profissional certificado|NR-35 (trabalho em altura)|16 anos de experiência|Materiais sob orçamento"},
+{t:"servico",k:"s-solda",i:"tool",n:"Soldagem e serralheria sob medida",p:90,u:"/hora",c:"Maringá, PR",r:5.0,v:528,d:"Portões, grades, estruturas metálicas e reparos em geral, com solda MIG, TIG e eletrodo.",q:"Soldador qualificado|Domina MIG, TIG e eletrodo|12 anos de experiência|Mais de 500 serviços concluídos"},
+{t:"servico",k:"s-limpeza",i:"spray",n:"Limpeza pós-obra e limpeza pesada",p:8,u:"/m²",c:"Maringá, PR",r:4.8,v:144,d:"Limpeza completa depois de obras e reformas: remoção de resíduos, vidros, pisos e fachadas.",q:"Equipe treinada em limpeza técnica|Equipamentos e produtos próprios|6 anos de experiência|Atende empresas e residências"},
+{t:"servico",k:"s-jardim",i:"leaf",n:"Jardinagem, paisagismo e poda de árvores",p:150,u:"/dia",c:"Mandaguari, PR",r:4.9,v:187,d:"Manutenção de jardins, poda, plantio e projetos de paisagismo para residências e condomínios.",q:"Técnico em Jardinagem|NR-35 para poda em altura|9 anos de experiência|Projeto de paisagismo incluso"},
+{t:"servico",k:"s-hidraulica",i:"drop",n:"Encanador e reparos hidráulicos",p:110,u:"/visita",c:"Paiçandu, PR",r:4.8,v:262,d:"Vazamentos, troca de registros, instalação de caixas d'água, esgoto e desentupimento.",q:"Encanador profissional|Equipamento de detecção de vazamento|13 anos de experiência|Garantia de 90 dias no serviço"},
+{t:"servico",k:"s-clima",i:"ac",n:"Instalação de ar-condicionado split",p:450,u:"/instalação",c:"Maringá, PR",r:4.9,v:309,d:"Instalação e manutenção de ar-condicionado split de 9.000 a 36.000 BTUs, com ferramentas e vácuo próprios.",q:"Técnico em Refrigeração|NR-10 e NR-35 válidas|10 anos de experiência|Garantia de 6 meses"}
+];
+const SM=["Agro Silva Máquinas","Locadora Paraná Norte","Ferramentas & Cia","Equipa Locações","José Almeida","Costa Máquinas","Verde Vale Equipamentos","Oficina do Carlos"],SS=["Carlos Mendes","Rogério Lima","Fernanda Alves","Paulo Henrique","Marcos Oliveira","Luciana Rocha","Anderson Costa","Tiago Ramos"];
+const RV=[["Marcos T.",5,"Tudo certo, exatamente como descrito. Recomendo."],["Ana P.",5,"Atendimento rápido e preço justo."],["Rafael S.",4,"Bom custo-benefício, combinamos tudo pelo chat sem problemas."],["Juliana M.",5,"Pontual e cuidadoso. Vou contratar de novo."]];
+ads.forEach((a,i)=>{a.s=(a.t==="servico"?SS:SM)[i%8];a.m=2018+i%6});
+const KL={aluguel:"Aluguel",venda:"Venda",servico:"Serviço"},TN={aluguel:"tint1",venda:"tint2",servico:"tint3"};
+const R=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CK='<svg class="ck"><use href="#ckk"/></svg>';
+let tipo="todos",cat="",favs=new Set();
+const $=id=>document.getElementById(id),grid=$("grid"),q=$("q"),ord=$("ord");
+
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2800)}
+function card(a,ix){
+  const off=a.o?Math.round((1-a.p/a.o)*100):0,sv=a.t==="servico";
+  const price=sv?`<div class="pr"><small>a partir de</small> ${R(a.p)}<small>${a.u}</small></div>`:`<div class="pr">${R(a.p)}<small>${a.u||""}</small></div>`;
+  const ship=a.t==="aluguel"?"Entrega a combinar":a.t==="venda"?"Frete grátis na região":"Orçamento sem compromisso";
+  return `<article class="pc" tabindex="0" data-o="${ix}"><div class="img ${TN[a.t]}"><svg class="i"><use href="#${a.i}"/></svg></div>
+  <button class="fav" data-f="${ix}" aria-pressed="${favs.has(ix)}" aria-label="Favoritar"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg></button>
+  <div class="inf"><span class="kind">${KL[a.t]} · ${CN[a.k][1]}</span><h3 class="nm">${E(a.n)}</h3>
+  ${a.o?`<span class="old">${R(a.o)}</span>`:""}${price}${a.o?`<span class="off">${off}% OFF</span>`:""}${a.t==="venda"?`<div class="ins">em 12x ${R(a.p/12)} sem juros</div>`:""}
+  <span class="ship">${ship}</span><span class="sel"><span class="st">★</span>${a.r.toFixed(1)} · ${a.v} ${sv?"serviços":"negócios"} · ${E(a.c)}</span>
+  <span class="vf">${CK}Identidade verificada</span></div></article>`;
+}
+function base(){const t=q.value.trim().toLowerCase();return ads.map((a,i)=>({a,i})).filter(({a})=>(tipo==="todos"||a.t===tipo)&&(!t||(a.n+" "+a.c+" "+CN[a.k][1]+" "+a.d).toLowerCase().includes(t)))}
+function render(){
+  let r=base().filter(({a})=>!cat||a.k===cat);
+  if(ord.value==="asc")r.sort((x,y)=>x.a.p-y.a.p);if(ord.value==="desc")r.sort((x,y)=>y.a.p-x.a.p);
+  $("res").textContent=r.length+(r.length===1?" resultado":" resultados");
+  $("ttl").textContent=cat?CN[cat][1]:tipo==="todos"?"Anúncios em destaque":KL[tipo]==="Serviço"?"Serviços":tipo==="aluguel"?"Máquinas para alugar":"Máquinas à venda";
+  grid.innerHTML=r.length?r.map(({a,i})=>card(a,i)).join(""):'<div class="empty">Nenhum anúncio encontrado. Tente outro termo ou limpe os filtros.</div>';
+  side();
+}
+function side(){
+  const b=ads.filter(a=>tipo==="todos"||a.t===tipo),cnt=k=>b.filter(a=>a.k===k).length;
+  const list=L=>L.map(c=>`<button class="fi" data-c="${c[0]}" aria-pressed="${cat===c[0]}">${c[1]}<small>${cnt(c[0])}</small></button>`).join("");
+  const tp=[["todos","Todos"],["aluguel","Aluguel de máquinas"],["venda","Máquinas à venda"],["servico","Serviços"]];
+  $("aside").innerHTML=`<h4>Tipo de anúncio</h4>`+tp.map(x=>`<button class="fi" data-t="${x[0]}" aria-pressed="${tipo===x[0]}">${x[1]}</button>`).join("")
+   +(tipo!=="servico"?`<h4>Máquinas e ferramentas</h4>${list(MC)}`:"")+(tipo==="todos"||tipo==="servico"?`<h4>Serviços</h4>${list(SC)}`:"")
+   +`<button class="clr" data-clr="1">Limpar filtros</button>`;
+}
+function setTipo(t){tipo=t;if(cat&&((t==="servico")!==cat.startsWith("s-"))&&t!=="todos")cat="";render()}
+function setCat(c){cat=c;const sv=c.startsWith("s-");if(sv)tipo="servico";else if(tipo==="servico")tipo="todos";render()}
+function go(){$("grid").scrollIntoView()}
+$("aside").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.t)setTipo(b.dataset.t);else if(b.dataset.c)setCat(cat===b.dataset.c?"":b.dataset.c);else if(b.dataset.clr){tipo="todos";cat="";q.value="";render()}};
+$("filt").onclick=()=>$("aside").classList.toggle("open");
+$("cats").innerHTML=STRIP.map(k=>`<button class="cat" data-c="${k}"><span class="c"><svg class="i"><use href="#${CN[k][2]}"/></svg></span>${CN[k][1]}</button>`).join("");
+$("cats").onclick=e=>{const b=e.target.closest(".cat");if(b){setCat(b.dataset.c);go()}};
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{cat="";setTipo(b.dataset.go);go()}));
+document.querySelectorAll("[data-toast]").forEach(b=>b.onclick=()=>toast(b.dataset.toast));
+grid.onclick=e=>{const f=e.target.closest(".fav");if(f){e.stopPropagation();const i=+f.dataset.f;favs.has(i)?favs.delete(i):favs.add(i);f.setAttribute("aria-pressed",favs.has(i));return}
+  const c=e.target.closest(".pc");if(c)openAd(+c.dataset.o)};
+grid.onkeydown=e=>{if(e.key==="Enter"&&e.target.classList.contains("pc"))openAd(+e.target.dataset.o)};
+q.oninput=render;ord.onchange=render;
+$("busca").onsubmit=e=>{e.preventDefault();render();go()};
+document.querySelectorAll('a[href="#"]').forEach(a=>a.onclick=e=>e.preventDefault());
+
+function openAd(ix){
+  const a=ads[ix],sv=a.t==="servico",nm=E(a.s),ini=a.s.split(" ").map(w=>w[0]).slice(0,2).join("");
+  const pr=sv?`<small>a partir de</small> ${R(a.p)}<small>${a.u}</small>`:`${R(a.p)}<small>${a.u||""}</small>`;
+  let box="";
+  if(a.t==="aluguel")box=`<div class="calc">Quantos dias? <input type="number" id="dias" min="1" max="60" value="3"> Total: <strong id="tot">${R(a.p*3)}</strong></div><button class="btn" data-toast="Protótipo: aqui o aluguel seria solicitado e o pagamento ficaria protegido.">Solicitar aluguel</button>`;
+  else if(a.t==="venda")box=`<div class="ins" style="margin:4px 0 6px">em 12x ${R(a.p/12)} sem juros</div><button class="btn" data-toast="Protótipo: aqui seguiria para o pagamento protegido.">Comprar agora</button><button class="btn sec" data-toast="Protótipo: aqui você enviaria uma oferta ao vendedor.">Fazer oferta</button>`;
+  else box=`<div class="calc">Orçamento sem compromisso. Valor final combinado com o prestador conforme o serviço.</div><button class="btn" data-toast="Protótipo: aqui você solicitaria o orçamento pelo chat.">Solicitar orçamento</button>`;
+  const left=sv?`<h3>Qualificações do prestador</h3><ul class="ql">${a.q.split("|").map(x=>`<li>${CK}<span>${E(x)}</span></li>`).join("")}</ul>`
+   :`<h3>Especificações</h3><div class="sp">${a.sp.split("|").map(x=>{const p=x.split(":");return `<div>${E(p[0])}</div><div>${E(p[1])}</div>`}).join("")}</div>`;
+  const rv=[RV[ix%4],RV[(ix+1)%4]].map(x=>`<div class="rv"><b><span class="st">${"★".repeat(x[1])}</span>${x[0]}</b><br>${x[2]}</div>`).join("");
+  $("md").innerHTML=`<button class="x" aria-label="Fechar" id="cl">×</button>
+  <div class="mg"><div><div class="gal ${TN[a.t]}"><svg class="i"><use href="#${a.i}"/></svg></div><div class="th">${[0,1,2,3].map(()=>`<div class="${TN[a.t]}"><svg class="i"><use href="#${a.i}"/></svg></div>`).join("")}</div></div>
+  <div><span class="kind" style="color:var(--blue);font-weight:600;font-size:13px">${KL[a.t]} · ${CN[a.k][1]}</span><h2>${E(a.n)}</h2>
+  <div class="rt"><span class="st">★</span>${a.r.toFixed(1)} · ${a.v} ${sv?"serviços realizados":"negócios"} · ${E(a.c)}</div>
+  <div class="big">${pr}</div>${box}
+  <div class="safe"><svg class="i"><use href="#shield"/></svg><span>Negocie sempre pela plataforma. Nunca faça pagamentos fora do site para manter a compra protegida.</span></div></div></div>
+  <div class="mb"><div><h3>${sv?"Sobre o serviço":"Descrição"}</h3><p>${E(a.d)}</p>${left}<h3>Avaliações de clientes</h3>${rv}</div>
+  <div><div class="sc"><div class="sh"><div class="av">${E(ini)}</div><div><b>${nm}</b><span>${sv?"Prestador":"Anunciante"} desde ${a.m}</span></div></div>
+   <h3 style="margin:0 0 8px">Verificações de segurança</h3>
+   <ul class="ql"><li>${CK}Dados pessoais confirmados</li><li>${CK}Documento com foto validado</li><li>${CK}Reconhecimento facial aprovado</li><li>${CK}Telefone e e-mail verificados</li></ul>
+   <button class="btn sec" data-toast="Protótipo: aqui abriria o chat com o anunciante.">Conversar com ${sv?"o prestador":"o anunciante"}</button></div></div></div>`;
+  $("ov").classList.add("open");document.body.classList.add("lock");$("ov").scrollTop=0;
+  const d=$("dias");if(d)d.oninput=()=>{const n=Math.max(1,Math.min(60,+d.value||1));$("tot").textContent=R(a.p*n)};
+  $("md").querySelectorAll("[data-toast]").forEach(b=>b.onclick=()=>toast(b.dataset.toast));
+  $("cl").onclick=closeAd;
+}
+function closeAd(){$("ov").classList.remove("open");document.body.classList.remove("lock")}
+$("ov").onclick=e=>{if(e.target===$("ov"))closeAd()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAd()});
+render();
+</script>
+</body>
+</html>
