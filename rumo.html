@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RUMO – Máquinas, ferramentas e serviços para aluguel e venda</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#E8EDF2;--card:#FFFFFF;--ink:#142B45;--muted:#58697b;--line:#d2dae3;
+  --hd:#142B45;--hd-ink:#FFFFFF;--or:#F28C28;--acd:#B35A00;--blue:#142B45;--red:#F28C28;--star:#F28C28;
+  --t1:#E8EDF2;--t2:#D5DEE8;--t3:#FDEBD6;--ico:#142B45;--gbg:#FFF3E5;--ck:#142B45;--ckst:#F28C28;
+  --foot:#0E2036;--foot-ink:#c3cfdb;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1826;--card:#142B45;--ink:#E8EDF2;--muted:#9fb0c2;--line:#27445f;--hd:#0E2036;--acd:#F5A455;--blue:#F5A455;
+  --t1:#1c3652;--t2:#244463;--t3:#4a3318;--ico:#a9c3e0;--gbg:#1b3652;--ck:#F28C28;--ckst:#142B45;--foot:#060d15;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1826;--card:#142B45;--ink:#E8EDF2;--muted:#9fb0c2;--line:#27445f;--hd:#0E2036;--acd:#F5A455;--blue:#F5A455;--t1:#1c3652;--t2:#244463;--t3:#4a3318;--ico:#a9c3e0;--gbg:#1b3652;--ck:#F28C28;--ckst:#142B45;--foot:#060d15;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 120px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+body.lock{overflow:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:30}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
+.w{max-width:1240px;margin:0 auto;padding:0 16px}
+:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+svg.i{fill:none;stroke:var(--ico);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ck{width:15px;height:15px;color:var(--ck);flex:none}
+
+header{background:var(--hd);color:var(--hd-ink);position:sticky;top:env(safe-area-inset-top,0px);z-index:20;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:10px 0 6px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:24px;letter-spacing:.14em;color:#fff}
+.logo svg{width:36px;height:36px}
+.sb{display:flex;background:#fff;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);overflow:hidden;max-width:680px;width:100%}
+.sb input{flex:1;border:0;padding:11px 14px;font:inherit;color:#2b2b2b;background:transparent;outline:none;min-width:0}
+.sb button{border:0;border-left:1px solid #e3e3e3;background:#fff;padding:0 16px;cursor:pointer;color:#555;display:grid;place-items:center}
+.acc{display:flex;gap:18px;font-size:14px;white-space:nowrap}
+.sub{display:flex;gap:22px;font-size:13.5px;padding:2px 0 9px;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.sub a{opacity:.85;cursor:pointer}.sub a:hover{opacity:1}.sub .cep{margin-left:auto;opacity:.75}
+@media(max-width:820px){.top{grid-template-columns:1fr auto}.sb{grid-column:1/-1;order:3;max-width:none}.acc a:not(.pri){display:none}.sub .cep{display:none}}
+
+.hero{margin-top:16px;display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.ban{border-radius:6px;padding:34px 36px;min-height:210px;color:#fff;background:linear-gradient(110deg,#0E2036,#142B45 55%,#1f4268);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.ban::after{content:"";position:absolute;right:-70px;bottom:-90px;width:300px;height:300px;border:38px solid var(--or);border-radius:50%}
+.ban>*{position:relative;z-index:1}
+.ban h1{margin:0;font-size:clamp(26px,3.6vw,38px);line-height:1.1;letter-spacing:-.02em;max-width:20ch}
+.ban p{margin:0;opacity:.92;max-width:46ch}
+.cta{align-self:flex-start;background:var(--or);color:#142B45;font-weight:600;padding:10px 20px;border-radius:4px;border:0;cursor:pointer}
+.side2{display:grid;gap:12px}
+.mini{background:var(--card);border-radius:6px;padding:18px;display:flex;gap:14px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.mini svg{width:42px;height:42px;flex:none}.mini b{font-size:16px;display:block}.mini span{color:var(--muted);font-size:13.5px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.ban{padding:26px 22px}}
+
+.cats{margin-top:14px;background:var(--card);border-radius:6px;padding:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.cat{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;padding:8px 2px;border-radius:6px;font-size:12.5px;text-align:center;line-height:1.2}
+.cat:hover{background:var(--bg)}
+.cat .c{width:48px;height:48px;border-radius:50%;background:var(--t1);display:grid;place-items:center}.cat svg{width:26px;height:26px}
+@media(max-width:820px){.cats{grid-template-columns:repeat(4,1fr)}}
+
+.layout{display:grid;grid-template-columns:240px 1fr;gap:18px;margin-top:22px;align-items:start}
+aside{background:var(--card);border-radius:6px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.08);position:sticky;top:calc(env(safe-area-inset-top,0px) + 112px);max-height:calc(100vh - 130px);overflow:auto}
+aside h4{margin:14px 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
+aside h4:first-child{margin-top:0}
+.fi{display:flex;justify-content:space-between;width:100%;background:none;border:0;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:14px;text-align:left}
+.fi:hover{background:var(--bg)}.fi[aria-pressed="true"]{background:var(--t1);color:var(--blue);font-weight:600}
+.fi small{color:var(--muted)}
+.clr{margin-top:12px;background:none;border:0;color:var(--blue);cursor:pointer;font-size:13.5px;padding:4px 8px}
+.filt{display:none;width:100%;margin-bottom:10px;padding:10px;border:1px solid var(--line);background:var(--card);border-radius:6px;cursor:pointer;font-weight:500}
+@media(max-width:820px){.layout{grid-template-columns:1fr}aside{display:none;position:static;max-height:none}aside.open{display:block}.filt{display:block}}
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.bar h2{margin:0;font-size:21px;font-weight:600}
+select,input[type=number]{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:7px 10px;font:inherit;font-size:13.5px}
+.res{color:var(--muted);font-size:13.5px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pc{background:var(--card);border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.1);position:relative;display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s;cursor:pointer}
+.pc:hover{box-shadow:0 6px 18px rgba(0,0,0,.18);transform:translateY(-2px)}
+.img{height:150px;display:grid;place-items:center}.img svg{width:78px;height:78px}
+.tint1{background:var(--t1)}.tint2{background:var(--t2)}.tint3{background:var(--t3)}
+.fav{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;border:0;background:var(--card);cursor:pointer;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.fav svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2.2}
+.fav[aria-pressed="true"] svg{fill:var(--red);stroke:var(--red)}
+.inf{padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px;flex:1;border-top:1px solid var(--line)}
+.kind{font-size:12px;font-weight:600;color:var(--blue)}
+.nm{font-size:14.5px;line-height:1.3;margin:2px 0 4px;font-weight:400}
+.old{color:var(--muted);text-decoration:line-through;font-size:13px}
+.pr{font-size:23px;font-weight:500;letter-spacing:-.01em}.pr small{font-size:13px;color:var(--muted);font-weight:400}
+.off,.ins{color:var(--acd);font-size:13px}.off{font-weight:500}
+.ship{color:var(--acd);font-size:12.5px;font-weight:600;margin-top:4px}
+.sel{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12.5px;margin-top:6px}.st{color:var(--star)}
+.vf{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--acd);font-weight:500;margin-top:6px}
+.empty{grid-column:1/-1;background:var(--card);border-radius:6px;padding:48px;text-align:center;color:var(--muted)}
+
+.trust{margin-top:30px;background:var(--card);border-radius:6px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.trust div{padding:20px 20px;display:flex;gap:12px;align-items:flex-start}
+.trust div+div{border-left:1px solid var(--line)}
+.trust div:first-child{background:var(--gbg);border-radius:6px 0 0 6px}
+.trust svg{width:34px;height:34px;flex:none}.trust b{display:block;font-size:15px}.trust span{color:var(--muted);font-size:13.5px}
+@media(max-width:900px){.trust{grid-template-columns:1fr 1fr}.trust div+div{border-left:0}.trust div:first-child{grid-column:1/-1;border-radius:6px 6px 0 0}}
+.sell{margin-top:12px;border-radius:6px;background:var(--or);color:#142B45;padding:26px 30px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.sell h3{margin:0;font-size:22px;letter-spacing:-.01em}.sell p{margin:4px 0 10px}
+.sell .cta{background:#142B45;color:#fff}
+.stp{display:flex;gap:8px;flex-wrap:wrap}.stp span{background:rgba(255,255,255,.65);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+footer{background:var(--foot);color:var(--foot-ink);margin-top:36px;padding:34px 0 28px;font-size:13.5px}
+.fc{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.fc b{display:block;color:#fff;margin-bottom:10px}.fc a{display:block;padding:3px 0;opacity:.85}
+.cp{border-top:1px solid #2a4560;margin-top:24px;padding-top:16px;color:#8ea1b4;font-size:12.5px}
+@media(max-width:700px){.fc{grid-template-columns:1fr 1fr}}
+
+/* detalhes */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;display:none;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 12px) 12px 12px}
+.ov.open{display:block}
+.md{background:var(--card);border-radius:8px;max-width:1000px;margin:8px auto;position:relative}
+.x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:0;background:var(--bg);cursor:pointer;font-size:20px;line-height:1;z-index:2}
+.mg{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;padding:24px}
+.gal{border-radius:6px;height:300px;display:grid;place-items:center}.gal svg{width:150px;height:150px}
+.th{display:flex;gap:8px;margin-top:8px}.th div{flex:1;height:54px;border-radius:5px;display:grid;place-items:center}.th svg{width:28px;height:28px}
+.mg h2{margin:4px 0 6px;font-size:24px;line-height:1.2;font-weight:600;padding-right:34px}
+.rt{color:var(--muted);font-size:13.5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.big{font-size:34px;font-weight:500;margin:12px 0 2px;letter-spacing:-.02em}.big small{font-size:15px;color:var(--muted)}
+.calc{background:var(--bg);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:14px}
+.calc input{width:70px;margin:0 6px}.calc strong{font-size:18px}
+.btn{display:block;width:100%;border:0;border-radius:6px;padding:13px;font-weight:600;cursor:pointer;font-size:15px;margin-top:8px;background:var(--or);color:#142B45}
+.btn.sec{background:var(--t1);color:var(--blue)}
+.safe{display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:13px;color:var(--muted)}.safe svg{width:20px;height:20px;flex:none;margin-top:1px}
+.mb{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;padding:4px 24px 26px;border-top:1px solid var(--line)}
+.mb h3{font-size:16px;margin:20px 0 8px;font-weight:600}.mb p{margin:0;color:var(--ink)}
+.sp{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:14px}
+.sp div{padding:8px 12px;border-bottom:1px solid var(--line)}.sp div:nth-child(4n+1),.sp div:nth-child(4n+2){background:var(--bg)}.sp div:nth-child(odd){color:var(--muted)}
+.ql{list-style:none;margin:0;padding:0;display:grid;gap:8px}.ql li{display:flex;gap:8px;align-items:flex-start}
+.sc{border:1px solid var(--line);border-radius:6px;padding:16px;margin-top:20px}
+.sh{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.av{width:46px;height:46px;border-radius:50%;background:var(--hd);color:#fff;display:grid;place-items:center;font-weight:600}
+.sh b{display:block}.sh span{font-size:13px;color:var(--muted)}
+.rv{border-top:1px solid var(--line);padding:10px 0;font-size:14px}.rv b{font-size:13.5px}.rv .st{margin-right:6px}
+@media(max-width:760px){.mg,.mb{grid-template-columns:1fr}.gal{height:210px}.gal svg{width:110px;height:110px}}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:#142B45;color:#fff;border:1px solid var(--or);padding:12px 18px;border-radius:6px;z-index:60;font-size:14px;max-width:90vw;display:none}
+
+/* ================= ASSISTENTE RUMO ================= */
+.ar{--ar-u:#142B45;--ar-ut:#fff;position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:38;font-size:14px;line-height:1.45}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ar{--ar-u:#F28C28;--ar-ut:#142B45}}
+:root[data-theme="dark"] .ar{--ar-u:#F28C28;--ar-ut:#142B45}
+.ar svg{display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ar button{cursor:pointer}
+
+/* botão flutuante e chamada */
+.ar-fab{width:58px;height:58px;border-radius:50%;border:2px solid var(--or);background:var(--hd);color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(14,32,54,.35);transition:transform .2s ease,box-shadow .2s ease,opacity .2s ease}
+.ar-fab svg{width:30px;height:30px}
+.ar-fab:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 10px 24px rgba(14,32,54,.42)}
+.ar-fab:active{transform:scale(.96)}
+.ar.is-open .ar-fab{opacity:0;pointer-events:none;transform:scale(.6)}
+.ar-call{position:absolute;right:70px;bottom:9px;width:max-content;max-width:min(230px,calc(100vw - 110px));padding:9px 30px 9px 12px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px 12px 4px 12px;box-shadow:0 6px 20px rgba(14,32,54,.18);font-size:13.5px;font-weight:500;opacity:0;transform:translateX(8px);pointer-events:none;transition:opacity .3s ease,transform .3s ease;cursor:pointer}
+.ar-call.show{opacity:1;transform:none;pointer-events:auto}
+.ar.is-open .ar-call{display:none}
+.ar-callx{position:absolute;top:3px;right:3px;width:22px;height:22px;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center}
+.ar-callx:hover{background:var(--bg)}
+.ar-callx svg{width:12px;height:12px}
+
+/* janela */
+.ar-win{position:absolute;right:0;bottom:0;width:min(380px,calc(100vw - 32px));height:min(620px,calc(100vh - 100px));height:min(620px,calc(100dvh - 100px));display:flex;flex-direction:column;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 16px 48px rgba(14,32,54,.3);overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.97);transform-origin:bottom right;transition:opacity .22s ease,transform .22s ease,visibility 0s linear .22s}
+.ar-win.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.ar-win.min{height:auto}
+.ar-win.min .ar-body{display:none}
+.ar-hd{display:flex;align-items:center;gap:10px;padding:11px 10px 11px 14px;background:var(--hd);color:#fff;border-bottom:3px solid var(--or);flex:none}
+.ar-win.min .ar-hd{cursor:pointer}
+.ar-av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;flex:none}
+.ar-av svg{width:22px;height:22px}
+.ar-ti{flex:1;min-width:0}
+.ar-ti b{display:block;font-size:15px;font-weight:600}
+.ar-ti span{display:block;font-size:12px;opacity:.78}
+.ar-ib{width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:#fff;display:grid;place-items:center;transition:background .15s ease}
+.ar-ib:hover{background:rgba(255,255,255,.16)}
+.ar-ib svg{width:18px;height:18px}
+.ar-body{display:flex;flex-direction:column;flex:1;min-height:0}
+
+/* mensagens */
+.ar-msgs{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.ar-m{max-width:86%;padding:9px 12px;border-radius:14px;overflow-wrap:anywhere;animation:ar-in .2s ease}
+@keyframes ar-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ar-bot{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+.ar-user{align-self:flex-end;background:var(--ar-u);color:var(--ar-ut);border-bottom-right-radius:4px}
+.ar-m p{margin:0 0 8px}.ar-m ul{margin:0 0 8px;padding-left:18px}.ar-m li{margin:2px 0}.ar-m li::marker{color:var(--or)}
+.ar-m>:last-child{margin-bottom:0}
+.ar-welcome{max-width:94%;background:var(--gbg);border:1px solid var(--line);border-left:3px solid var(--or)}
+.ar-wt{display:block;font-size:16px;margin-bottom:6px}
+.ar-chips{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;max-width:94%}
+.ar-chip{border:1px solid var(--line);background:var(--card);color:var(--blue);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500;transition:background .15s ease,border-color .15s ease}
+.ar-chip:hover{background:var(--t1);border-color:var(--or)}
+.ar-act{border-color:var(--or)}
+.ar-dots{display:flex;gap:4px;padding:12px 14px}
+.ar-dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:ar-b 1s infinite ease-in-out}
+.ar-dots i:nth-child(2){animation-delay:.15s}.ar-dots i:nth-child(3){animation-delay:.3s}
+@keyframes ar-b{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+
+/* modos de assistência */
+.ar-modes{flex:none;padding-top:8px;border-top:1px solid var(--line);background:var(--card)}
+.ar-ml{margin:0 14px 6px;font-size:12px;font-weight:600;color:var(--muted)}
+.ar-mr{display:flex;gap:6px;overflow-x:auto;padding:0 14px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ar-mr::-webkit-scrollbar{display:none}
+.ar-mode{flex:none;display:flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--line);background:var(--card);border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap;transition:background .15s ease,border-color .15s ease}
+.ar-mode svg{width:16px;height:16px;stroke:var(--ico)}
+.ar-mode:hover{background:var(--t1)}
+.ar-mode[aria-pressed="true"]{background:var(--t3);border-color:var(--or)}
+
+/* campo de texto */
+.ar-in{display:flex;gap:8px;padding:6px 12px 12px;background:var(--card);flex:none}
+.ar-in input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:10px 14px;font:inherit;font-size:14.5px}
+.ar-in input::placeholder{color:var(--muted)}
+.ar-send{width:42px;height:42px;flex:none;border:0;border-radius:50%;background:var(--or);color:#142B45;display:grid;place-items:center;transition:transform .15s ease}
+.ar-send:hover{transform:scale(1.06)}
+.ar-send svg{width:19px;height:19px}
+
+@media(max-width:560px){
+  .ar{right:12px}
+  .ar-win{position:fixed;left:8px;right:8px;width:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);height:min(80vh,640px);height:min(80dvh,640px)}
+  .ar-win.min{height:auto}
+  .ar-in input{font-size:16px}
+  .ar-m{max-width:90%}
+}
+@media(prefers-reduced-motion:reduce){.ar *{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="veh" viewBox="0 0 64 64"><rect x="6" y="24" width="30" height="18" rx="2"/><path d="M36 30h11l9 7v5H36z"/><circle cx="17" cy="46" r="7"/><circle cx="46" cy="46" r="7"/></symbol>
+ <symbol id="gear" viewBox="0 0 64 64"><circle cx="32" cy="32" r="19" stroke-width="7" stroke-dasharray="7.46 7.46"/><circle cx="32" cy="32" r="14"/><circle cx="32" cy="32" r="5"/></symbol>
+ <symbol id="tool" viewBox="0 0 64 64"><path d="M44 10a11 11 0 0 0-10 15L13 46a5 5 0 0 0 7 7l21-21a11 11 0 0 0 15-10l-7 7-6-1-1-6z"/></symbol>
+ <symbol id="bolt" viewBox="0 0 64 64"><rect x="8" y="16" width="48" height="32" rx="3"/><path d="M35 21l-9 13h9l-5 11 13-16h-9z"/><path d="M16 52v4M48 52v4"/></symbol>
+ <symbol id="drop" viewBox="0 0 64 64"><path d="M32 8C24 20 16 28 16 38a16 16 0 0 0 32 0C48 28 40 20 32 8z"/><path d="M24 40a8 8 0 0 0 8 8"/></symbol>
+ <symbol id="leaf" viewBox="0 0 64 64"><path d="M12 52C12 28 28 12 52 12c0 24-16 40-40 40z"/><path d="M12 52L38 26"/></symbol>
+ <symbol id="drill" viewBox="0 0 64 64"><path d="M8 18h34v14H8zM42 22h14M20 32v20h10V32"/></symbol>
+ <symbol id="roller" viewBox="0 0 64 64"><rect x="10" y="10" width="38" height="14" rx="2"/><path d="M48 17h6v14H32v10M28 41h8v14h-8z"/></symbol>
+ <symbol id="ac" viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="20" rx="3"/><path d="M16 26h32M16 42v8M32 42v12M48 42v8"/></symbol>
+ <symbol id="cloud" viewBox="0 0 64 64"><circle cx="32" cy="24" r="14"/><path d="M32 38v18M24 56h16M24 22c4-6 12-6 16 0"/></symbol>
+ <symbol id="spray" viewBox="0 0 64 64"><path d="M18 26h20v28H18zM22 26v-9h12v9M38 20h14M44 12l4 4M44 28l6 2"/></symbol>
+ <symbol id="shield" viewBox="0 0 64 64"><path d="M32 8l20 8v14c0 14-9 22-20 26-11-4-20-12-20-26V16z"/><path d="M23 32l7 7 12-14"/></symbol>
+ <symbol id="chat" viewBox="0 0 64 64"><path d="M10 14h44v30H28l-12 10v-10h-6z"/><path d="M20 26h24M20 34h14"/></symbol>
+ <symbol id="star" viewBox="0 0 64 64"><path d="M32 8l7 16 17 2-13 12 4 17-15-9-15 9 4-17L8 26l17-2z"/></symbol>
+ <symbol id="face" viewBox="0 0 64 64"><path d="M10 22V12h10M44 12h10v10M54 42v10H44M20 52H10V42"/><circle cx="32" cy="28" r="8"/><path d="M20 46c2-8 22-8 24 0"/></symbol>
+ <symbol id="ckk" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor"/><path d="M4.5 8.2l2.4 2.4 4.6-5" fill="none" style="stroke:var(--ckst)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header><div class="w">
+ <div class="top">
+  <a class="logo" href="#"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"><path d="M10 33V8h12a8 8 0 0 1 0 16H10" stroke="#fff"/><path d="M18 24l12 10M22.5 34H30v-7.5" stroke="#F28C28"/></g></svg>RUMO</a>
+  <form class="sb" id="busca" role="search"><input id="q" type="search" placeholder="Buscar máquinas, ferramentas e serviços" aria-label="Buscar"><button aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button></form>
+  <div class="acc"><a href="#">Criar conta</a><a href="#">Entrar</a><a href="#" class="pri">Minhas compras</a></div>
+ </div>
+ <nav class="sub"><a data-go="todos">Categorias</a><a data-go="aluguel">Aluguel</a><a data-go="venda">Venda</a><a data-go="servico">Serviços</a><a href="#seg">Segurança</a><a href="#vender">Anunciar</a><a href="#">Ajuda</a><span class="cep">Informe seu CEP</span></nav>
+</div></header>
+
+<main class="w">
+ <div class="hero">
+  <div class="ban"><h1>Máquinas, ferramentas e serviços de quem você pode confiar</h1><p>Da lavadora de alta pressão ao trator: alugue, compre ou contrate. Todo anunciante passa por verificação de identidade.</p><button class="cta" data-go="todos">Ver anúncios</button></div>
+  <div class="side2">
+   <div class="mini"><svg class="i"><use href="#face"/></svg><div><b>Anunciantes verificados</b><span>Documento e reconhecimento facial antes de anunciar.</span></div></div>
+   <div class="mini"><svg class="i"><use href="#shield"/></svg><div><b>Compra protegida</b><span>O pagamento só é liberado após a confirmação.</span></div></div>
+  </div>
+ </div>
+ <div class="cats" id="cats"></div>
+
+ <div class="layout">
+  <div>
+   <button class="filt" id="filt">Filtros e categorias</button>
+   <aside id="aside"></aside>
+  </div>
+  <section>
+   <div class="bar"><h2 id="ttl">Anúncios em destaque</h2>
+    <select id="ord" aria-label="Ordenar"><option value="rel">Mais relevantes</option><option value="asc">Menor preço</option><option value="desc">Maior preço</option></select></div>
+   <p class="res" id="res"></p>
+   <div class="grid" id="grid" aria-live="polite"></div>
+  </section>
+ </div>
+
+ <div class="trust" id="seg">
+  <div><svg class="i"><use href="#face"/></svg><span><b>Identidade verificada</b>Quem anuncia confirma dados pessoais, envia documento com foto e passa por reconhecimento facial.</span></div>
+  <div><svg class="i"><use href="#shield"/></svg><span><b>Compra protegida</b>Pagamento liberado só após a confirmação do negócio.</span></div>
+  <div><svg class="i"><use href="#star"/></svg><span><b>Vendedores avaliados</b>Reputação e histórico em cada anúncio.</span></div>
+  <div><svg class="i"><use href="#chat"/></svg><span><b>Chat direto</b>Combine tudo dentro da plataforma.</span></div>
+ </div>
+ <div class="sell" id="vender"><div><h3>Tem uma máquina parada ou um serviço para oferecer?</h3><p>Crie seu anúncio grátis. Para a segurança de todos, primeiro verificamos você:</p><div class="stp"><span>1 · Dados pessoais</span><span>2 · Foto do documento</span><span>3 · Reconhecimento facial</span></div></div><button class="cta" data-toast="Protótipo: aqui começaria a verificação de identidade.">Anunciar grátis</button></div>
+</main>
+
+<footer><div class="w">
+ <div class="fc">
+  <div><b>Sobre</b><a href="#">Quem somos</a><a href="#">Trabalhe conosco</a><a href="#">Imprensa</a></div>
+  <div><b>Comprar e alugar</b><a href="#">Como funciona</a><a href="#">Formas de pagamento</a><a href="#">Compra protegida</a></div>
+  <div><b>Anunciar</b><a href="#">Criar anúncio</a><a href="#">Verificação de identidade</a><a href="#">Dicas de segurança</a></div>
+  <div><b>Ajuda</b><a href="#">Central de ajuda</a><a href="#">Termos e condições</a><a href="#">Privacidade</a></div>
+ </div>
+ <div class="cp">© 2026 RUMO · Protótipo acadêmico com anúncios, pessoas e dados fictícios.</div>
+</div></footer>
+
+<div class="ov" id="ov"><div class="md" id="md" role="dialog" aria-modal="true" aria-label="Detalhes do anúncio"></div></div>
+<div class="toast" id="toast"></div>
+
+<!-- ================= ASSISTENTE RUMO: ícones ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="ar-chat" viewBox="0 0 32 32"><path d="M5 9a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-6l-5 4v-4H9a4 4 0 0 1-4-4z"/><circle cx="10" cy="12.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="14" cy="12.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="12.5" r="1.2" fill="currentColor" stroke="none"/><path d="M25 2l1.4 3.6L30 7l-3.6 1.4L25 12l-1.4-3.6L20 7l3.6-1.4z" fill="#F28C28" stroke="none"/></symbol>
+ <symbol id="ar-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+ <symbol id="ar-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+ <symbol id="ar-mega" viewBox="0 0 24 24"><path d="M4 10v4h3l7 4V6l-7 4zM17 9a4 4 0 0 1 0 6"/></symbol>
+ <symbol id="ar-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l3.6 3.6M14.8 14.8l3.6 3.6M18.4 5.6l-3.6 3.6M9.2 14.8l-3.6 3.6"/></symbol>
+ <symbol id="ar-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+ <symbol id="ar-send" viewBox="0 0 24 24"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></symbol>
+ <symbol id="ar-min" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+ <symbol id="ar-max" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+ <symbol id="ar-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+</svg>
+
+<!-- ================= ASSISTENTE RUMO: interface ================= -->
+<div class="ar" id="ar">
+ <div class="ar-call" id="arCall" role="status">Precisa de ajuda? Fale com o RUMO.<button type="button" class="ar-callx" id="arCallX" aria-label="Dispensar chamada"><svg><use href="#ar-x"/></svg></button></div>
+ <button type="button" class="ar-fab" id="arFab" aria-label="Abrir Assistente RUMO" aria-expanded="false" aria-controls="arWin"><svg><use href="#ar-chat"/></svg></button>
+ <section class="ar-win" id="arWin" role="dialog" aria-label="Assistente RUMO" aria-hidden="true">
+  <div class="ar-hd" id="arHd">
+   <span class="ar-av"><svg><use href="#ar-chat"/></svg></span>
+   <div class="ar-ti"><b>Assistente RUMO</b><span>Assistente virtual · demonstração</span></div>
+   <button type="button" class="ar-ib" id="arMin" aria-label="Minimizar conversa"><svg><use href="#ar-min"/></svg></button>
+   <button type="button" class="ar-ib" id="arClose" aria-label="Fechar conversa"><svg><use href="#ar-x"/></svg></button>
+  </div>
+  <div class="ar-body" id="arBody">
+   <div class="ar-msgs" id="arMsgs" role="log" aria-live="polite"></div>
+   <div class="ar-modes"><p class="ar-ml" id="arML">Como posso ajudar?</p><div class="ar-mr" id="arModes" role="group" aria-labelledby="arML"></div></div>
+   <form class="ar-in" id="arForm" autocomplete="off"><input id="arInp" type="text" maxlength="300" placeholder="Escreva sua dúvida…" aria-label="Mensagem para o Assistente RUMO"><button type="submit" class="ar-send" aria-label="Enviar mensagem"><svg><use href="#ar-send"/></svg></button></form>
+  </div>
+ </section>
+</div>
+
+<script>
+const MC=[["agricola","Agrícolas","veh"],["construcao","Construção","gear"],["limpeza","Lavagem e limpeza","spray"],["jardim","Jardinagem","leaf"],["ferramentas","Ferramentas elétricas","drill"],["energia","Energia e geradores","bolt"],["transporte","Transporte e carga","veh"],["eventos","Eventos e alimentação","cloud"]];
+const SC=[["s-eletrica","Elétrica","bolt"],["s-mecanica","Mecânica","tool"],["s-reforma","Reforma e obras","roller"],["s-solda","Soldagem e serralheria","tool"],["s-limpeza","Limpeza e conservação","spray"],["s-jardim","Jardinagem e paisagismo","leaf"],["s-hidraulica","Hidráulica","drop"],["s-clima","Climatização","ac"]];
+const CN={};[...MC,...SC].forEach(c=>CN[c[0]]=c);
+const STRIP=["agricola","construcao","limpeza","jardim","ferramentas","s-eletrica","s-mecanica","s-reforma"];
+// t=tipo k=categoria i=ícone n=nome p=preço o=preço antigo u=unidade c=cidade r=nota v=vendas d=descrição sp=especificações q=qualificações
+const ads=[
+{t:"aluguel",k:"agricola",i:"veh",n:"Trator agrícola 75 cv com implementos",p:650,u:"/dia",c:"Maringá, PR",r:4.9,v:312,d:"Trator 4x4 revisado, ideal para preparo de solo, plantio e transporte. Grade e carreta disponíveis mediante combinação.",sp:"Ano:2018|Potência:75 cv|Tração:4x4|Horas de uso:2.100 h"},
+{t:"venda",k:"agricola",i:"spray",n:"Pulverizador costal motorizado 20 L",p:1890,u:"",c:"Londrina, PR",r:4.7,v:96,d:"Pulverizador de mochila com motor 2 tempos, bom para pequenas lavouras, pomares e hortas.",sp:"Capacidade:20 litros|Motor:2 tempos|Estado:Novo|Garantia:12 meses"},
+{t:"aluguel",k:"construcao",i:"veh",n:"Retroescavadeira CAT 416 com operador",p:950,u:"/dia",c:"Londrina, PR",r:4.8,v:187,d:"Retroescavadeira com operador experiente para valas, terraplenagem e carregamento. Mínimo de 1 diária.",sp:"Ano:2020|Horas de uso:1.450 h|Operador:Incluso|Combustível:Por conta do locatário"},
+{t:"venda",k:"construcao",i:"gear",n:"Betoneira 400 L trifásica seminova",p:4300,o:4890,u:"",c:"Sarandi, PR",r:4.6,v:73,d:"Betoneira de 400 litros em ótimo estado, pouco uso, motor trifásico e coroa em bom estado.",sp:"Capacidade:400 L|Motor:Trifásico 2 cv|Ano:2022|Estado:Seminova"},
+{t:"aluguel",k:"construcao",i:"drill",n:"Martelete rompedor 1500 W",p:85,u:"/dia",c:"Maringá, PR",r:4.8,v:204,d:"Rompedor elétrico para demolir pisos, paredes e abrir canaletas. Acompanha ponteiros e talhadeira.",sp:"Potência:1.500 W|Tensão:220 V|Acessórios:Ponteiro e talhadeira|Caução:Sim"},
+{t:"aluguel",k:"limpeza",i:"spray",n:"Lavadora de alta pressão 2200 psi para carros e calçadas",p:75,u:"/dia",c:"Maringá, PR",r:4.9,v:468,d:"Lavadora potente para lavar veículos, calçadas, fachadas e pátios. Acompanha mangueira de 8 m, lança e bico regulável.",sp:"Pressão:2.200 psi|Potência:1.800 W|Tensão:127 V|Mangueira:8 metros"},
+{t:"venda",k:"limpeza",i:"spray",n:"Lavadora de alta pressão 1800 W residencial",p:649,o:749,u:"",c:"Paiçandu, PR",r:4.8,v:331,d:"Lavadora compacta para uso doméstico, boa para carros, motos e quintais. Nova, na caixa, com nota fiscal.",sp:"Pressão:1.800 psi|Potência:1.500 W|Estado:Nova|Garantia:12 meses"},
+{t:"aluguel",k:"limpeza",i:"spray",n:"Aspirador de pó e água industrial 60 L",p:55,u:"/dia",c:"Sarandi, PR",r:4.7,v:119,d:"Aspirador industrial para obras, oficinas e limpeza de estofados. Aspira pó e líquidos.",sp:"Capacidade:60 litros|Potência:1.600 W|Tensão:220 V|Uso:Pó e água"},
+{t:"aluguel",k:"jardim",i:"leaf",n:"Cortador de grama a gasolina autopropelido",p:70,u:"/dia",c:"Marialva, PR",r:4.8,v:142,d:"Cortador com tração, indicado para gramados grandes. Entregue com tanque cheio e regulagem de altura.",sp:"Motor:4 tempos 160 cc|Largura de corte:46 cm|Tração:Autopropelido|Recolhedor:Sim"},
+{t:"venda",k:"jardim",i:"leaf",n:"Roçadeira costal a gasolina 52 cc",p:1190,u:"",c:"Mandaguari, PR",r:4.6,v:88,d:"Roçadeira profissional para capina e limpeza de terrenos. Acompanha cabeçote de fio, lâmina e cinto.",sp:"Cilindrada:52 cc|Estado:Nova|Peso:8,5 kg|Garantia:6 meses"},
+{t:"aluguel",k:"jardim",i:"leaf",n:"Motosserra 45 cc com sabre de 16 polegadas",p:90,u:"/dia",c:"Apucarana, PR",r:4.7,v:76,d:"Motosserra para poda e corte de lenha, com corrente afiada e kit de EPI básico no aluguel.",sp:"Cilindrada:45 cc|Sabre:16 pol|Corrente:Afiada|EPI:Luvas e óculos"},
+{t:"venda",k:"ferramentas",i:"drill",n:"Furadeira de impacto 13 mm 650 W",p:289,o:339,u:"",c:"Maringá, PR",r:4.8,v:604,d:"Furadeira de impacto para alvenaria, madeira e metal, com maleta e jogo de brocas.",sp:"Potência:650 W|Mandril:13 mm|Estado:Nova|Garantia:12 meses"},
+{t:"venda",k:"ferramentas",i:"bolt",n:"Máquina de solda inversora 200 A",p:1290,o:1490,u:"",c:"Londrina, PR",r:4.9,v:157,d:"Inversora bivolt para eletrodo revestido e TIG. Leve, portátil, acompanha máscara e cabos.",sp:"Corrente:200 A|Tensão:Bivolt|Processo:Eletrodo e TIG|Garantia:12 meses"},
+{t:"venda",k:"ferramentas",i:"gear",n:"Compressor de ar 100 L 2 HP profissional",p:2190,o:2590,u:"",c:"Maringá, PR",r:4.8,v:152,d:"Compressor de pistão para pintura, pneumáticos e oficina. Funciona perfeitamente, com manômetro novo.",sp:"Reservatório:100 litros|Motor:2 HP|Pressão:140 psi|Tensão:220 V"},
+{t:"aluguel",k:"energia",i:"bolt",n:"Gerador diesel silenciado 150 kVA",p:480,u:"/dia",c:"Curitiba, PR",r:4.8,v:96,d:"Gerador em cabine silenciada para obras, eventos e emergências. Entrega e instalação sob consulta.",sp:"Potência:150 kVA|Combustível:Diesel|Partida:Automática|Cabine:Silenciada"},
+{t:"venda",k:"energia",i:"bolt",n:"Gerador portátil a gasolina 5 kVA",p:3890,u:"",c:"Cascavel, PR",r:4.7,v:64,d:"Gerador portátil com partida elétrica, ótimo para casas, comércios e pequenos eventos.",sp:"Potência:5 kVA|Partida:Elétrica|Autonomia:8 horas|Estado:Novo"},
+{t:"venda",k:"transporte",i:"veh",n:"Caminhão basculante 6x4 2015 revisado",p:187000,o:199000,u:"",c:"Cascavel, PR",r:4.7,v:41,d:"Caminhão basculante com revisão completa, pneus novos e documentação em dia. Aceita avaliação mecânica.",sp:"Ano:2015|Quilometragem:310 mil km|Tração:6x4|Documentação:Em dia"},
+{t:"aluguel",k:"transporte",i:"veh",n:"Empilhadeira elétrica 2,5 toneladas",p:320,u:"/dia",c:"Paiçandu, PR",r:4.7,v:64,d:"Empilhadeira elétrica para galpões e depósitos, com bateria carregada. Operador habilitado mediante contratação.",sp:"Capacidade:2,5 t|Ano:2019|Horas de uso:3.200 h|Elevação:4,5 m"},
+{t:"aluguel",k:"eventos",i:"cloud",n:"Máquina de algodão-doce profissional",p:120,u:"/dia",c:"Maringá, PR",r:4.9,v:233,d:"Máquina de algodão-doce para festas e eventos. Acompanha cone de teste e açúcar para o primeiro dia.",sp:"Tensão:127 V|Produção:60 por hora|Acompanha:Açúcar inicial|Montagem:Simples"},
+{t:"servico",k:"s-eletrica",i:"bolt",n:"Eletricista industrial com laudo técnico",p:120,u:"/hora",c:"Londrina, PR",r:4.9,v:171,d:"Instalações, quadros de comando, painéis e manutenção elétrica em indústrias, comércios e residências.",q:"Técnico em Eletrotécnica (SENAI)|NR-10 e NR-35 válidas|11 anos de experiência|Emite laudo e ART quando necessário"},
+{t:"servico",k:"s-mecanica",i:"tool",n:"Manutenção de máquinas pesadas em campo",p:180,u:"/visita",c:"Apucarana, PR",r:4.9,v:240,d:"Mecânico atende no local da obra ou propriedade: diagnóstico, troca de óleo, hidráulica e reparos.",q:"Técnico em Mecânica Industrial|Especialista em máquinas agrícolas|14 anos de experiência|Atendimento em até 24 h"},
+{t:"servico",k:"s-reforma",i:"roller",n:"Pintura residencial e comercial",p:35,u:"/m²",c:"Maringá, PR",r:4.8,v:312,d:"Pintura interna e externa com preparo de parede, massa corrida e acabamento. Orçamento sem compromisso.",q:"Curso profissionalizante de pintura|8 anos de experiência|Equipe de 3 pintores|Mais de 400 obras concluídas"},
+{t:"servico",k:"s-reforma",i:"gear",n:"Reformas e pequenas obras com pedreiro",p:160,u:"/dia",c:"Sarandi, PR",r:4.7,v:198,d:"Pisos, reboco, muros, banheiros e cozinhas. Atende reformas completas ou serviços avulsos.",q:"Pedreiro profissional certificado|NR-35 (trabalho em altura)|16 anos de experiência|Materiais sob orçamento"},
+{t:"servico",k:"s-solda",i:"tool",n:"Soldagem e serralheria sob medida",p:90,u:"/hora",c:"Maringá, PR",r:5.0,v:528,d:"Portões, grades, estruturas metálicas e reparos em geral, com solda MIG, TIG e eletrodo.",q:"Soldador qualificado|Domina MIG, TIG e eletrodo|12 anos de experiência|Mais de 500 serviços concluídos"},
+{t:"servico",k:"s-limpeza",i:"spray",n:"Limpeza pós-obra e limpeza pesada",p:8,u:"/m²",c:"Maringá, PR",r:4.8,v:144,d:"Limpeza completa depois de obras e reformas: remoção de resíduos, vidros, pisos e fachadas.",q:"Equipe treinada em limpeza técnica|Equipamentos e produtos próprios|6 anos de experiência|Atende empresas e residências"},
+{t:"servico",k:"s-jardim",i:"leaf",n:"Jardinagem, paisagismo e poda de árvores",p:150,u:"/dia",c:"Mandaguari, PR",r:4.9,v:187,d:"Manutenção de jardins, poda, plantio e projetos de paisagismo para residências e condomínios.",q:"Técnico em Jardinagem|NR-35 para poda em altura|9 anos de experiência|Projeto de paisagismo incluso"},
+{t:"servico",k:"s-hidraulica",i:"drop",n:"Encanador e reparos hidráulicos",p:110,u:"/visita",c:"Paiçandu, PR",r:4.8,v:262,d:"Vazamentos, troca de registros, instalação de caixas d'água, esgoto e desentupimento.",q:"Encanador profissional|Equipamento de detecção de vazamento|13 anos de experiência|Garantia de 90 dias no serviço"},
+{t:"servico",k:"s-clima",i:"ac",n:"Instalação de ar-condicionado split",p:450,u:"/instalação",c:"Maringá, PR",r:4.9,v:309,d:"Instalação e manutenção de ar-condicionado split de 9.000 a 36.000 BTUs, com ferramentas e vácuo próprios.",q:"Técnico em Refrigeração|NR-10 e NR-35 válidas|10 anos de experiência|Garantia de 6 meses"}
+];
+const SM=["Agro Silva Máquinas","Locadora Paraná Norte","Ferramentas & Cia","Equipa Locações","José Almeida","Costa Máquinas","Verde Vale Equipamentos","Oficina do Carlos"],SS=["Carlos Mendes","Rogério Lima","Fernanda Alves","Paulo Henrique","Marcos Oliveira","Luciana Rocha","Anderson Costa","Tiago Ramos"];
+const RV=[["Marcos T.",5,"Tudo certo, exatamente como descrito. Recomendo."],["Ana P.",5,"Atendimento rápido e preço justo."],["Rafael S.",4,"Bom custo-benefício, combinamos tudo pelo chat sem problemas."],["Juliana M.",5,"Pontual e cuidadoso. Vou contratar de novo."]];
+ads.forEach((a,i)=>{a.s=(a.t==="servico"?SS:SM)[i%8];a.m=2018+i%6});
+const KL={aluguel:"Aluguel",venda:"Venda",servico:"Serviço"},TN={aluguel:"tint1",venda:"tint2",servico:"tint3"};
+const R=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CK='<svg class="ck"><use href="#ckk"/></svg>';
+let tipo="todos",cat="",favs=new Set();
+const $=id=>document.getElementById(id),grid=$("grid"),q=$("q"),ord=$("ord");
+
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2800)}
+function card(a,ix){
+  const off=a.o?Math.round((1-a.p/a.o)*100):0,sv=a.t==="servico";
+  const price=sv?`<div class="pr"><small>a partir de</small> ${R(a.p)}<small>${a.u}</small></div>`:`<div class="pr">${R(a.p)}<small>${a.u||""}</small></div>`;
+  const ship=a.t==="aluguel"?"Entrega a combinar":a.t==="venda"?"Frete grátis na região":"Orçamento sem compromisso";
+  return `<article class="pc" tabindex="0" data-o="${ix}"><div class="img ${TN[a.t]}"><svg class="i"><use href="#${a.i}"/></svg></div>
+  <button class="fav" data-f="${ix}" aria-pressed="${favs.has(ix)}" aria-label="Favoritar"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg></button>
+  <div class="inf"><span class="kind">${KL[a.t]} · ${CN[a.k][1]}</span><h3 class="nm">${E(a.n)}</h3>
+  ${a.o?`<span class="old">${R(a.o)}</span>`:""}${price}${a.o?`<span class="off">${off}% OFF</span>`:""}${a.t==="venda"?`<div class="ins">em 12x ${R(a.p/12)} sem juros</div>`:""}
+  <span class="ship">${ship}</span><span class="sel"><span class="st">★</span>${a.r.toFixed(1)} · ${a.v} ${sv?"serviços":"negócios"} · ${E(a.c)}</span>
+  <span class="vf">${CK}Identidade verificada</span></div></article>`;
+}
+function base(){const t=q.value.trim().toLowerCase();return ads.map((a,i)=>({a,i})).filter(({a})=>(tipo==="todos"||a.t===tipo)&&(!t||(a.n+" "+a.c+" "+CN[a.k][1]+" "+a.d).toLowerCase().includes(t)))}
+function render(){
+  let r=base().filter(({a})=>!cat||a.k===cat);
+  if(ord.value==="asc")r.sort((x,y)=>x.a.p-y.a.p);if(ord.value==="desc")r.sort((x,y)=>y.a.p-x.a.p);
+  $("res").textContent=r.length+(r.length===1?" resultado":" resultados");
+  $("ttl").textContent=cat?CN[cat][1]:tipo==="todos"?"Anúncios em destaque":KL[tipo]==="Serviço"?"Serviços":tipo==="aluguel"?"Máquinas para alugar":"Máquinas à venda";
+  grid.innerHTML=r.length?r.map(({a,i})=>card(a,i)).join(""):'<div class="empty">Nenhum anúncio encontrado. Tente outro termo ou limpe os filtros.</div>';
+  side();
+}
+function side(){
+  const b=ads.filter(a=>tipo==="todos"||a.t===tipo),cnt=k=>b.filter(a=>a.k===k).length;
+  const list=L=>L.map(c=>`<button class="fi" data-c="${c[0]}" aria-pressed="${cat===c[0]}">${c[1]}<small>${cnt(c[0])}</small></button>`).join("");
+  const tp=[["todos","Todos"],["aluguel","Aluguel de máquinas"],["venda","Máquinas à venda"],["servico","Serviços"]];
+  $("aside").innerHTML=`<h4>Tipo de anúncio</h4>`+tp.map(x=>`<button class="fi" data-t="${x[0]}" aria-pressed="${tipo===x[0]}">${x[1]}</button>`).join("")
+   +(tipo!=="servico"?`<h4>Máquinas e ferramentas</h4>${list(MC)}`:"")+(tipo==="todos"||tipo==="servico"?`<h4>Serviços</h4>${list(SC)}`:"")
+   +`<button class="clr" data-clr="1">Limpar filtros</button>`;
+}
+function setTipo(t){tipo=t;if(cat&&((t==="servico")!==cat.startsWith("s-"))&&t!=="todos")cat="";render()}
+function setCat(c){cat=c;const sv=c.startsWith("s-");if(sv)tipo="servico";else if(tipo==="servico")tipo="todos";render()}
+function go(){$("grid").scrollIntoView()}
+$("aside").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.t)setTipo(b.dataset.t);else if(b.dataset.c)setCat(cat===b.dataset.c?"":b.dataset.c);else if(b.dataset.clr){tipo="todos";cat="";q.value="";render()}};
+$("filt").onclick=()=>$("aside").classList.toggle("open");
+$("cats").innerHTML=STRIP.map(k=>`<button class="cat" data-c="${k}"><span class="c"><svg class="i"><use href="#${CN[k][2]}"/></svg></span>${CN[k][1]}</button>`).join("");
+$("cats").onclick=e=>{const b=e.target.closest(".cat");if(b){setCat(b.dataset.c);go()}};
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{cat="";setTipo(b.dataset.go);go()}));
+document.querySelectorAll("[data-toast]").forEach(b=>b.onclick=()=>toast(b.dataset.toast));
+grid.onclick=e=>{const f=e.target.closest(".fav");if(f){e.stopPropagation();const i=+f.dataset.f;favs.has(i)?favs.delete(i):favs.add(i);f.setAttribute("aria-pressed",favs.has(i));return}
+  const c=e.target.closest(".pc");if(c)openAd(+c.dataset.o)};
+grid.onkeydown=e=>{if(e.key==="Enter"&&e.target.classList.contains("pc"))openAd(+e.target.dataset.o)};
+q.oninput=render;ord.onchange=render;
+$("busca").onsubmit=e=>{e.preventDefault();render();go()};
+document.querySelectorAll('a[href="#"]').forEach(a=>a.onclick=e=>e.preventDefault());
+
+function openAd(ix){
+  const a=ads[ix],sv=a.t==="servico",nm=E(a.s),ini=a.s.split(" ").map(w=>w[0]).slice(0,2).join("");
+  const pr=sv?`<small>a partir de</small> ${R(a.p)}<small>${a.u}</small>`:`${R(a.p)}<small>${a.u||""}</small>`;
+  let box="";
+  if(a.t==="aluguel")box=`<div class="calc">Quantos dias? <input type="number" id="dias" min="1" max="60" value="3"> Total: <strong id="tot">${R(a.p*3)}</strong></div><button class="btn" data-toast="Protótipo: aqui o aluguel seria solicitado e o pagamento ficaria protegido.">Solicitar aluguel</button>`;
+  else if(a.t==="venda")box=`<div class="ins" style="margin:4px 0 6px">em 12x ${R(a.p/12)} sem juros</div><button class="btn" data-toast="Protótipo: aqui seguiria para o pagamento protegido.">Comprar agora</button><button class="btn sec" data-toast="Protótipo: aqui você enviaria uma oferta ao vendedor.">Fazer oferta</button>`;
+  else box=`<div class="calc">Orçamento sem compromisso. Valor final combinado com o prestador conforme o serviço.</div><button class="btn" data-toast="Protótipo: aqui você solicitaria o orçamento pelo chat.">Solicitar orçamento</button>`;
+  const left=sv?`<h3>Qualificações do prestador</h3><ul class="ql">${a.q.split("|").map(x=>`<li>${CK}<span>${E(x)}</span></li>`).join("")}</ul>`
+   :`<h3>Especificações</h3><div class="sp">${a.sp.split("|").map(x=>{const p=x.split(":");return `<div>${E(p[0])}</div><div>${E(p[1])}</div>`}).join("")}</div>`;
+  const rv=[RV[ix%4],RV[(ix+1)%4]].map(x=>`<div class="rv"><b><span class="st">${"★".repeat(x[1])}</span>${x[0]}</b><br>${x[2]}</div>`).join("");
+  $("md").innerHTML=`<button class="x" aria-label="Fechar" id="cl">×</button>
+  <div class="mg"><div><div class="gal ${TN[a.t]}"><svg class="i"><use href="#${a.i}"/></svg></div><div class="th">${[0,1,2,3].map(()=>`<div class="${TN[a.t]}"><svg class="i"><use href="#${a.i}"/></svg></div>`).join("")}</div></div>
+  <div><span class="kind" style="color:var(--blue);font-weight:600;font-size:13px">${KL[a.t]} · ${CN[a.k][1]}</span><h2>${E(a.n)}</h2>
+  <div class="rt"><span class="st">★</span>${a.r.toFixed(1)} · ${a.v} ${sv?"serviços realizados":"negócios"} · ${E(a.c)}</div>
+  <div class="big">${pr}</div>${box}
+  <div class="safe"><svg class="i"><use href="#shield"/></svg><span>Negocie sempre pela plataforma. Nunca faça pagamentos fora do site para manter a compra protegida.</span></div></div></div>
+  <div class="mb"><div><h3>${sv?"Sobre o serviço":"Descrição"}</h3><p>${E(a.d)}</p>${left}<h3>Avaliações de clientes</h3>${rv}</div>
+  <div><div class="sc"><div class="sh"><div class="av">${E(ini)}</div><div><b>${nm}</b><span>${sv?"Prestador":"Anunciante"} desde ${a.m}</span></div></div>
+   <h3 style="margin:0 0 8px">Verificações de segurança</h3>
+   <ul class="ql"><li>${CK}Dados pessoais confirmados</li><li>${CK}Documento com foto validado</li><li>${CK}Reconhecimento facial aprovado</li><li>${CK}Telefone e e-mail verificados</li></ul>
+   <button class="btn sec" data-toast="Protótipo: aqui abriria o chat com o anunciante.">Conversar com ${sv?"o prestador":"o anunciante"}</button></div></div></div>`;
+  $("ov").classList.add("open");document.body.classList.add("lock");$("ov").scrollTop=0;
+  const d=$("dias");if(d)d.oninput=()=>{const n=Math.max(1,Math.min(60,+d.value||1));$("tot").textContent=R(a.p*n)};
+  $("md").querySelectorAll("[data-toast]").forEach(b=>b.onclick=()=>toast(b.dataset.toast));
+  $("cl").onclick=closeAd;
+}
+function closeAd(){$("ov").classList.remove("open");document.body.classList.remove("lock")}
+$("ov").onclick=e=>{if(e.target===$("ov"))closeAd()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAd()});
+render();
+</script>
+
+<script>
+/* =====================================================================
+   ASSISTENTE RUMO (versão demonstrativa, sem IA real e sem APIs externas)
+   Organização:
+     1. Configuração e modos de assistência
+     2. DataSource   -> ponto de integração futura com dados reais
+     3. Conhecimento -> entidades, datas, recomendações e respostas
+     4. Motor        -> localProvider (troque por um provider de API real)
+     5. Interface    -> janela, mensagens, chips, botão flutuante
+   ===================================================================== */
+(function(){
+"use strict";
+
+/* ---------- 1. CONFIGURAÇÃO ---------- */
+const CFG={introKey:"rumo_assistente_intro_v1",typing:[650,1500],mobileMQ:"(max-width:560px)"};
+const MODES=[
+ {id:"encontrar",label:"Encontrar",icon:"ar-search",intent:"find",prompt:"Estou procurando uma máquina para realizar determinado trabalho.",ph:"Ex.: preciso de uma lavadora para sábado"},
+ {id:"recomendar",label:"Recomendar",icon:"ar-bulb",intent:"recommend",prompt:"Preciso de um equipamento para trabalhar em uma propriedade rural, mas não sei qual modelo escolher.",ph:"Ex.: qual equipamento serve para capinar?"},
+ {id:"anunciar",label:"Anunciar",icon:"ar-mega",intent:"announce",prompt:"Quero anunciar minha retroescavadeira. Como faço?",ph:"Ex.: quero anunciar meu trator"},
+ {id:"resolver",label:"Resolver",icon:"ar-help",intent:"resolve",prompt:"Não estou conseguindo encontrar determinado equipamento.",ph:"Ex.: não acho o anúncio que procuro"},
+ {id:"explorar",label:"Explorar",icon:"ar-compass",intent:"explore",prompt:"Quais funcionalidades o RUMO oferece?",ph:"Ex.: o que posso fazer no RUMO?"}
+];
+
+/* ---------- 2. FONTES DE DADOS (futuro) ---------- */
+// Hoje devolvem valores vazios. Para integrar, basta implementar estas funções
+// (por exemplo com fetch para a API do RUMO) e usá-las nos handlers da seção 3.
+const DataSource={
+  searchAds(query){return Promise.resolve([])},                 // anúncios reais
+  getAvailability(adId,from,to){return Promise.resolve(null)},  // calendário de disponibilidade
+  getPageContext(){                                              // ajuda contextual
+    const g=id=>document.getElementById(id);
+    return{page:location.pathname,tipo:typeof tipo!=="undefined"?tipo:null,categoria:typeof cat!=="undefined"?cat:null,busca:g("q")?g("q").value:""};
+  }
+};
+
+/* ---------- 3. CONHECIMENTO ---------- */
+const N=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s\/-]/g," ").replace(/\s+/g," ").trim();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// Texto simples -> HTML: parágrafos por linha em branco, listas com "- " e **negrito**
+function fmt(s){
+  return esc(s).split(/\n\n+/).map(b=>{const l=b.split("\n");
+    return l.every(x=>x.startsWith("- "))?"<ul>"+l.map(x=>"<li>"+x.slice(2)+"</li>").join("")+"</ul>":"<p>"+l.join("<br>")+"</p>"}).join("")
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+}
+const SVC_TIP="formação ou cursos, NRs válidas, anos de experiência e o que está incluso no valor";
+const ent=(re,label,term,art,tip,svc)=>({re,label,term,art,tip,svc:!!svc});
+const ENT=[
+ ent(/retroescav/,"retroescavadeira","retroescavadeira","uma retroescavadeira","ano, horas de uso, se o operador está incluso e quem paga o combustível"),
+ ent(/trator/,"trator","trator","um trator","ano, potência (cv), tração, horas de uso e implementos disponíveis"),
+ ent(/lavadora|alta pressao/,"lavadora de alta pressão","lavadora","uma lavadora de alta pressão","pressão (psi), potência, tensão (127 V ou 220 V) e acessórios"),
+ ent(/gerador/,"gerador","gerador","um gerador","potência (kVA), combustível, tipo de partida e autonomia"),
+ ent(/betoneira/,"betoneira","betoneira","uma betoneira","capacidade (litros), tipo de motor, ano e estado"),
+ ent(/martelete|rompedor/,"martelete rompedor","martelete","um martelete rompedor","potência, tensão, acessórios inclusos e se há caução"),
+ ent(/aspirador/,"aspirador industrial","aspirador","um aspirador industrial","capacidade, potência, tensão e se aspira pó e água"),
+ ent(/cortador|cortar (a )?grama/,"cortador de grama","cortador","um cortador de grama","tipo de motor, largura de corte, tração e se tem recolhedor"),
+ ent(/rocadeira/,"roçadeira","roçadeira","uma roçadeira","cilindrada, estado, peso e acessórios inclusos"),
+ ent(/motosserra/,"motosserra","motosserra","uma motosserra","cilindrada, tamanho do sabre, estado da corrente e EPI incluso"),
+ ent(/furadeira/,"furadeira","furadeira","uma furadeira","potência, mandril, estado e acessórios"),
+ ent(/compressor/,"compressor de ar","compressor","um compressor de ar","tamanho do reservatório, potência, pressão e tensão"),
+ ent(/empilhadeira/,"empilhadeira","empilhadeira","uma empilhadeira","capacidade, tipo (elétrica ou a gás), ano, horas de uso e se há operador"),
+ ent(/pulverizador/,"pulverizador","pulverizador","um pulverizador","capacidade, tipo de motor, estado e garantia"),
+ ent(/caminhao/,"caminhão","caminhão","um caminhão","ano, quilometragem, tração e situação da documentação"),
+ ent(/algodao/,"máquina de algodão-doce","algodão","uma máquina de algodão-doce","tensão, produção por hora e o que acompanha"),
+ ent(/maquina de solda|inversora/,"máquina de solda","solda","uma máquina de solda","corrente (A), tensão, processos e garantia"),
+ ent(/eletricista/,"eletricista","eletricista","um eletricista",SVC_TIP,1),
+ ent(/encanador|hidraulic/,"encanador","encanador","um encanador",SVC_TIP,1),
+ ent(/pintor|pintura/,"pintor","pintura","um pintor",SVC_TIP,1),
+ ent(/pedreiro/,"pedreiro","pedreiro","um pedreiro",SVC_TIP,1),
+ ent(/soldador|serralher/,"serviço de soldagem","soldagem","um serviço de soldagem",SVC_TIP,1),
+ ent(/jardineiro|paisagis|jardinagem/,"jardineiro","jardinagem","um jardineiro",SVC_TIP,1),
+ ent(/ar condicionado|ar-condicionado|split/,"instalação de ar-condicionado","ar-condicionado","uma instalação de ar-condicionado",SVC_TIP,1)
+];
+const findEnt=t=>ENT.find(e=>e.re.test(t))||null;
+function findDate(t){
+  const d=t.match(/\b(segunda|terca|quarta|quinta|sexta|sabado|domingo)\b/);
+  if(d)return{segunda:"na segunda-feira",terca:"na terça-feira",quarta:"na quarta-feira",quinta:"na quinta-feira",sexta:"na sexta-feira",sabado:"no sábado",domingo:"no domingo"}[d[1]];
+  if(/amanha/.test(t))return"amanhã";if(/\bhoje\b/.test(t))return"hoje";
+  if(/fim de semana|fds/.test(t))return"no fim de semana";if(/proxima semana|semana que vem/.test(t))return"na próxima semana";
+  const n=t.match(/\bdia (\d{1,2})\b/);return n?"no dia "+n[1]:null;
+}
+
+// Recomendações simuladas (área -> trabalho -> equipamentos)
+const REC={
+ agricola:{n:"categoria Agrícolas",c:"agricola",re:/rural|agric|fazenda|sitio|lavoura|plantio|propriedade|pasto|colheita|trator|pulveriz/,intro:"Para o trabalho rural, há boas opções.",tasks:[
+  {l:"Preparo do solo e plantio",k:/solo|plantio|arar|grade|prepar/,it:["Trator agrícola 75 cv com implementos (aluguel por dia)","Grade ou carreta, se precisar, combinada com o anunciante"]},
+  {l:"Pulverização",k:/pulveri|veneno|defensivo|aplicar/,it:["Pulverizador costal motorizado 20 L, para áreas pequenas","Trator com pulverizador, para áreas maiores"]},
+  {l:"Capina e limpeza do terreno",k:/capina|mato|rocar|rocadeira|terreno/,it:["Roçadeira costal a gasolina 52 cc","Motosserra 45 cc, se houver poda ou lenha"]},
+  {l:"Transporte de carga",k:/transport|carga|carreta|caminh/,it:["Trator com carreta","Caminhão basculante 6x4 (venda)"]}]},
+ construcao:{n:"categoria Construção",c:"construcao",re:/obra|construc|reforma|vala|escav|concreto|demoli|terraplen/,intro:"Em obras, o equipamento muda conforme a etapa.",tasks:[
+  {l:"Escavação e valas",k:/escav|vala|terraplen|buraco/,it:["Retroescavadeira com operador (aluguel por diária)","Martelete rompedor, se houver piso ou rocha para quebrar"]},
+  {l:"Demolição e quebra",k:/demoli|quebr|rompe|piso|parede/,it:["Martelete rompedor 1500 W (aluguel)","Aspirador industrial para a limpeza depois"]},
+  {l:"Concreto e massa",k:/concret|massa|betoneira|argamassa/,it:["Betoneira 400 L trifásica (compra ou aluguel)","Compressor de ar, se houver pintura ou ferramentas pneumáticas"]}]},
+ limpeza:{n:"categoria Lavagem e limpeza",c:"limpeza",re:/limpeza|lavar|lavagem|calcada|fachada|carro/,intro:"Para limpeza, o tamanho da área faz diferença.",tasks:[
+  {l:"Lavar carros e calçadas",k:/carro|calcada|moto|quintal|fachada|pressao/,it:["Lavadora de alta pressão 2200 psi (aluguel por dia)","Lavadora residencial 1800 W, se o uso for frequente (compra)"]},
+  {l:"Limpeza de obra ou oficina",k:/obra|oficina|estofado|industrial|pesada|agua/,it:["Aspirador industrial 60 L, que aspira pó e água","Serviço de limpeza pós-obra, se preferir contratar"]}]},
+ jardim:{n:"categoria Jardinagem",c:"jardim",re:/jardim|grama|poda|capina|paisag/,intro:"Para jardins e gramados, depende do tamanho da área.",tasks:[
+  {l:"Cortar grama",k:/grama|gramado|cortar/,it:["Cortador de grama autopropelido (aluguel por dia)","Roçadeira, para cantos e áreas de difícil acesso"]},
+  {l:"Capina e limpeza",k:/capina|mato|limpeza|rocar/,it:["Roçadeira costal a gasolina 52 cc","Serviço de jardinagem, se preferir contratar"]},
+  {l:"Poda de árvores",k:/poda|podar|arvore|galho/,it:["Motosserra 45 cc com EPI básico (aluguel)","Jardineiro com NR-35, para poda em altura"]}]},
+ energia:{n:"categoria Energia e geradores",c:"energia",re:/energia|gerador|apagao|queda de luz/,intro:"A escolha do gerador depende da potência que você precisa.",tasks:[
+  {l:"Obra ou evento grande",k:/obra|evento|grande|industri|festa/,it:["Gerador diesel silenciado 150 kVA (aluguel por dia)"]},
+  {l:"Casa ou comércio",k:/casa|comercio|loja|pequen|residen/,it:["Gerador portátil a gasolina 5 kVA, com partida elétrica"]}]},
+ eventos:{n:"categoria Eventos e alimentação",c:"eventos",re:/festa|evento|casamento|aniversario|buffet|doce/,intro:"Para eventos, vale pensar também na energia.",tasks:[
+  {l:"Doces e lanches",k:/doce|algodao|lanche|pipoca/,it:["Máquina de algodão-doce profissional (aluguel por dia)"]},
+  {l:"Energia para o evento",k:/energia|gerador|luz/,it:["Gerador portátil 5 kVA, para eventos pequenos","Gerador diesel silenciado 150 kVA, para eventos grandes"]}]}
+};
+const AREA_CHIPS=[["Trabalho rural","agricola"],["Obra ou construção","construcao"],["Limpeza","limpeza"],["Jardinagem","jardim"],["Energia","energia"],["Festas e eventos","eventos"]];
+const parseArea=t=>{for(const k in REC)if(REC[k].re.test(t))return k;return null};
+const parseTask=(a,t)=>REC[a].tasks.find(x=>x.k.test(t)||t.includes(N(x.l)))||null;
+function parseFreq(t){
+  if(/nao sei|indefinid/.test(t))return"?";
+  if(/frequen|toda|sempre|diari|comprar/.test(t))return"f";
+  if(/pontual|dias|vez|eventual|alugar/.test(t))return"p";
+  return null;
+}
+function recStep(ctx,t,fresh){
+  const f=ctx.flow,hadTask=!!f.task;let n=0;
+  if(hadTask&&!f.freq){const x=parseFreq(t);if(x){f.freq=x;n++}}
+  else if(f.area&&!f.task){const k=parseTask(f.area,t);if(k){f.task=k;n++}}
+  if(!n){
+    const a=parseArea(t);
+    if(a&&a!==f.area){f.area=a;f.task=null;f.freq=null;n++}
+    if(f.area&&!f.task){const k=parseTask(f.area,t);if(k&&!hadTask){f.task=k;n++}}
+  }
+  if(!n&&!fresh)return null;
+  return recNext(ctx,false);
+}
+function recNext(ctx,miss){
+  const f=ctx.flow,pre=miss?"Não identifiquei sua resposta, mas tudo bem. ":"";
+  if(!f.area)return{text:pre+"Posso ajudar você a escolher! Para começar, em que área será o trabalho?",chips:AREA_CHIPS.map(x=>x[0])};
+  const A=REC[f.area];
+  if(!f.task)return{text:pre+A.intro+" Qual é o trabalho principal?",chips:A.tasks.map(x=>x.l)};
+  if(!f.freq)return{text:pre+"Entendi: "+f.task.l.toLowerCase()+". Com que frequência você pretende usar o equipamento?",chips:["Uso pontual, só alguns dias","Uso frequente, toda semana","Ainda não sei"]};
+  const adv=f.freq==="f"?"Como o uso é frequente, vale comparar: some o aluguel de alguns meses e veja se comprar compensa. Os anúncios de venda têm parcelamento em 12x sem juros."
+    :f.freq==="p"?"Como o uso é pontual, alugar costuma sair mais em conta: você paga só pelos dias de uso, sem custo de manutenção ou armazenagem."
+    :"Se ainda não sabe a frequência, comece alugando por alguns dias. Assim você testa o equipamento antes de decidir comprar.";
+  const r={text:"Com base no que você me contou, estas são minhas sugestões:\n\n"+f.task.it.map(x=>"- "+x).join("\n")+"\n\n"+adv+"\n\nQuer que eu mostre os anúncios dessa categoria?",
+    chips:[{l:"Ver "+A.n.replace("categoria ","")+"",a:"cat",v:A.c},"Como ver a disponibilidade?","Recomendar para outro trabalho"]};
+  ctx.flow=null;return r;
+}
+
+// Respostas por intenção. Cada handler recebe {ctx,t,ent,date,n} e devolve {text,chips}
+const pick=(a,n)=>a[n%a.length];
+const H={
+ greet:c=>({text:pick(["Olá! Em que posso ajudar? Escolha um modo de assistência abaixo ou escreva sua dúvida.","Oi! Posso ajudar a encontrar, recomendar ou anunciar. Por onde quer começar?"],c.n),chips:["Quero encontrar um equipamento","Quero uma recomendação de equipamento","Quero anunciar um equipamento"]}),
+ thanks:c=>({text:pick(["Por nada! Se surgir mais alguma dúvida, é só chamar.","Disponha! Posso ajudar com mais alguma coisa no RUMO?"],c.n),chips:["Quais funcionalidades o RUMO oferece?"]}),
+ find:({ent:e,date,ctx})=>{
+  const dl=date?`Como você precisa ${date}, confira o calendário de disponibilidade de cada anúncio antes de solicitar.`:"";
+  if(e&&e.svc)return{text:[`Para contratar ${e.art} no RUMO:`,[`Busque por “${e.term}” na barra de busca.`,"Abra o anúncio e confira as qualificações do prestador: cursos, NRs e anos de experiência.","Veja as avaliações de clientes e o selo de identidade verificada.","Peça um orçamento sem compromisso pelo chat."].map(x=>"- "+x).join("\n"),dl,"Em qual cidade você precisa do serviço?"].filter(Boolean).join("\n\n"),
+    chips:[{l:`Buscar “${e.term}”`,a:"search",v:e.term},"Como solicitar um orçamento?"]};
+  if(e)return{text:[`Para encontrar ${e.art} no RUMO:`,[`Digite “${e.term}” na barra de busca.`,"No menu lateral, escolha entre aluguel e venda e refine pela categoria.","Ordene por menor preço, se quiser comparar.","Abra o anúncio para ver especificações, avaliações e a verificação do anunciante."].map(x=>"- "+x).join("\n"),dl,"Você pretende alugar ou comprar? Se me disser a cidade, ajudo a refinar a busca."].filter(Boolean).join("\n\n"),
+    chips:[{l:`Buscar “${e.term}”`,a:"search",v:e.term},{l:"Ver só aluguel",a:"tipo",v:"aluguel"},{l:"Ver só venda",a:"tipo",v:"venda"},"Como ver a disponibilidade?"]};
+  return{text:["Claro! Para achar o equipamento certo, me conte:",["Qual trabalho você precisa fazer?","Prefere alugar, comprar ou contratar um serviço?","Em qual cidade e para quando?"].map(x=>"- "+x).join("\n"),"Se preferir, comece por uma destas opções:"].join("\n\n"),
+    chips:[{l:"Ver aluguel",a:"tipo",v:"aluguel"},{l:"Ver venda",a:"tipo",v:"venda"},{l:"Ver serviços",a:"tipo",v:"servico"},"Não sei qual equipamento usar"]};
+ },
+ announce:({ent:e,ctx})=>{
+  e=e||ctx.ent;
+  return{text:[`Ótimo! Anunciar no RUMO é grátis. ${e?`Para anunciar ${e.art}, siga este caminho`:"Siga este caminho"}:`,
+   ["**Verificação de identidade:** dados pessoais, foto do documento e reconhecimento facial. É o que dá segurança a quem aluga ou compra de você.","**Título claro:** diga o que é e o modelo, sem abreviações confusas.","**Fotos nítidas:** de vários ângulos, mostrando o estado real.",`**Especificações:** ${e?e.tip:"tipo, ano, estado, potência ou capacidade e o que acompanha"}.`,"**Preço e unidade:** por dia, por hora, por visita ou valor de venda, mais a cidade de atendimento.","**Condições:** caução, entrega, operador e disponibilidade no calendário."].map(x=>"- "+x).join("\n"),
+   "Depois de publicar, responda rápido pelo chat: quem dá retorno ágil costuma fechar mais negócios."].join("\n\n"),
+   chips:["Como é a verificação?",{l:"Quanto devo cobrar?",q:"Quanto devo cobrar pelo meu anúncio?"},{l:"Como mostrar a disponibilidade?",q:"Como mostrar a disponibilidade no meu anúncio?"},{l:"Ir para Anunciar grátis",a:"section",v:"vender"}]};
+ },
+ pricing:()=>({text:["Para definir um bom preço:",["Pesquise anúncios parecidos: use a busca e ordene por menor ou maior preço.","Considere ano, horas de uso e estado de conservação.","Escolha a unidade certa: por dia, por hora, por visita ou por m².","Informe o que está incluso: operador, combustível, entrega ou acessórios.","Em aluguel, avalie pedir caução. Em venda, o parcelamento em 12x sem juros atrai mais compradores."].map(x=>"- "+x).join("\n")].join("\n\n"),chips:[{l:"Ver anúncios parecidos",a:"clear"},"Como é a verificação?"]}),
+ calSeller:()=>({text:"Cada anúncio terá um calendário de disponibilidade que você poderá manter atualizado: marque os dias ocupados, bloqueie datas de manutenção e libere novos períodos.\n\nQuem procura vê só os dias livres, então você recebe menos mensagens repetidas e mais pedidos prontos para confirmar.\n\nDica: atualize o calendário sempre que fechar um negócio.",chips:[{l:"Quanto devo cobrar?",q:"Quanto devo cobrar pelo meu anúncio?"},"Como é a verificação?"]}),
+ calendar:({ent:e,date,ctx})=>{
+  e=e||ctx.ent;
+  return{text:["No RUMO, cada anúncio de máquina ou profissional terá um calendário de disponibilidade. É por ele que você confere se a data serve."+(date?` Como você precisa ${date}, vale olhar primeiro os dias livres dessa data.`:""),"Como usar:",
+   [`Busque ${e?"“"+e.term+"”":"o equipamento ou o profissional"} e abra o anúncio.`,"No calendário, veja os dias livres e os já reservados.","Escolha as datas e solicite o aluguel ou o orçamento.","Combine entrega, horário e detalhes pelo chat."].map(x=>"- "+x).join("\n"),
+   "Se a data desejada estiver ocupada, procure opções parecidas ou converse com o anunciante para saber se ele consegue ajustar."].join("\n\n").replace("\n\nComo usar:\n\n","\n\nComo usar:\n\n"),
+   chips:[e?{l:`Buscar “${e.term}”`,a:"search",v:e.term}:{l:"Ver aluguel",a:"tipo",v:"aluguel"},{l:"Como mostrar a disponibilidade?",q:"Como mostrar a disponibilidade no meu anúncio?"},"Como falar com o anunciante?"]};
+ },
+ verification:()=>({text:["A verificação protege quem anuncia e quem negocia. Para anunciar, você passa por três etapas:",["Dados pessoais.","Foto do documento.","Reconhecimento facial."].map(x=>"- "+x).join("\n"),"Quem conclui tudo recebe o selo “Identidade verificada” nos anúncios. Ao abrir um anúncio, você vê as verificações do anunciante: dados, documento, reconhecimento facial e contato.","Dica de segurança: negocie sempre pela plataforma e nunca pague fora do site."].join("\n\n"),chips:["Quero anunciar um equipamento","Como funciona a compra protegida?"]}),
+ payment:()=>({text:["Com a compra protegida, o pagamento só é liberado depois da confirmação do negócio.",["**Aluguel:** o valor total aparece no anúncio conforme os dias escolhidos. Alguns equipamentos pedem caução.","**Venda:** parcelamento em até 12x sem juros, quando indicado no anúncio.","**Serviços:** peça um orçamento sem compromisso e combine o valor final pelo chat."].map(x=>"- "+x).join("\n"),"Nunca pague fora da plataforma: isso tira a proteção da compra."].join("\n\n"),chips:["Como é a verificação?","Como falar com o anunciante?"]}),
+ favorites:()=>({text:"Para guardar um anúncio, toque no coração no canto da imagem. Ele fica marcado para você comparar depois, sem precisar procurar tudo de novo.\n\nDica: favorite 2 ou 3 opções parecidas e compare preço, avaliações e selo de verificação antes de decidir.",chips:["Como funcionam as avaliações?","Como falar com o anunciante?"]}),
+ reviews:()=>({text:"Cada anúncio mostra a nota média, a quantidade de negócios ou serviços realizados e as avaliações de outros clientes.\n\nAo comparar, olhe a nota junto com o número de negócios: 4,8 com centenas de avaliações costuma dizer mais do que 5,0 com poucas. Depois de concluir um negócio, você também poderá avaliar.",chips:["Como é a verificação?","Quero uma recomendação de equipamento"]}),
+ contact:()=>({text:["Para falar com o anunciante, abra o anúncio e use o botão de conversa. O chat ajuda a:",["Combinar datas, entrega e horários.","Tirar dúvidas sobre estado e acessórios.","Negociar condições, como caução ou operador."].map(x=>"- "+x).join("\n"),"Mantenha toda a conversa e o pagamento dentro do RUMO, para continuar protegido."].join("\n\n"),chips:["Como funciona a compra protegida?","Como ver a disponibilidade?"]}),
+ resolve:({t,n})=>{
+  if(/encontr|acho|achar|equipamento|maquina|anuncio|resultado|aparece|busca/.test(t))return{text:["Vamos destravar essa busca. Tente isto:",["**Simplifique o nome:** use “lavadora” em vez do modelo completo.","**Limpe os filtros:** tipo e categoria podem estar escondendo resultados.","**Troque o tipo:** o item pode estar em aluguel e não em venda, ou o contrário.","**Navegue pela categoria** no menu lateral, sem digitar nada.","**Amplie a região:** tente sem o nome da cidade."].map(x=>"- "+x).join("\n"),"Se ainda assim não aparecer, me diga o equipamento e o trabalho que você quer fazer. Eu sugiro alternativas."].join("\n\n"),
+    chips:[{l:"Limpar filtros",a:"clear"},{l:"Ver todos os anúncios",a:"tipo",v:"todos"},"Quero sugestões de alternativas"]};
+  return{text:pick(["Vamos resolver. Me conte o que está acontecendo:","Estou aqui para ajudar. Qual destes casos se parece mais com o seu?"],n),chips:["Não encontro um equipamento","Dúvida sobre pagamento","Dúvida sobre verificação","Não sei como anunciar"]};
+ },
+ explore:()=>({text:["O RUMO reúne máquinas, ferramentas e serviços em um só lugar. Veja o que você pode fazer:",["**Busca e filtros** por tipo, categoria e preço.","**Categorias** de máquinas, ferramentas, equipamentos agrícolas e serviços.","**Favoritos** para comparar anúncios depois.","**Chat direto** com anunciantes e prestadores.","**Avaliações** e histórico de cada anunciante.","**Verificação de identidade** em todos os anúncios.","**Calendário de disponibilidade** (em implantação) para consultar datas livres."].map(x=>"- "+x).join("\n"),"Dica: ordene por menor preço e confira o selo de verificação antes de falar com o anunciante."].join("\n\n"),chips:["Como funciona o calendário?","Quero uma recomendação de equipamento","Quero anunciar um equipamento"]}),
+ price:()=>({text:["Os preços aparecem em cada anúncio: aluguel por dia, e serviços com “a partir de” por hora, visita ou m².",["Ordene por menor preço para comparar.","Compare o que está incluso: operador, combustível e entrega.","No aluguel, o anúncio calcula o total conforme os dias escolhidos.","Para serviços, peça um orçamento sem compromisso pelo chat."].map(x=>"- "+x).join("\n")].join("\n\n"),chips:[{l:"Ordenar por menor preço",a:"sort",v:"asc"},"Como funciona a compra protegida?"]}),
+ location:()=>({text:"Cada anúncio mostra a cidade do anunciante. Nos anúncios de aluguel, a entrega é combinada com o anunciante. Nos de venda, o frete pode ser grátis na região.\n\nBusque pelo nome da cidade na barra de busca para ver o que está mais perto de você.",chips:["Como falar com o anunciante?"]}),
+ filters:()=>({text:["Para buscar com mais precisão:",["**Barra de busca:** nome do item, cidade ou categoria.","**Menu lateral:** tipo de anúncio (aluguel, venda, serviços) e categoria.","**Ordenar:** mais relevantes, menor ou maior preço.","**Limpar filtros:** volta para a lista completa."].map(x=>"- "+x).join("\n"),"No celular, os filtros ficam no botão “Filtros e categorias”."].join("\n\n"),chips:[{l:"Limpar filtros",a:"clear"},{l:"Ver serviços",a:"tipo",v:"servico"}]}),
+ fallback:({n})=>({text:n%2===0?"Não consegui compreender completamente sua dúvida. Poderia explicar um pouco melhor o que você está procurando? Assim posso tentar orientar você.":"Ainda não entendi bem. Tente citar o equipamento ou serviço e o que você quer fazer, por exemplo: “preciso de uma lavadora no sábado”.",
+  chips:["Quero encontrar um equipamento","Quero uma recomendação de equipamento","Quero anunciar um equipamento","Quais funcionalidades o RUMO oferece?"]})
+};
+// Ordem importa: a primeira intenção que combinar vence
+const INTENTS=[
+ ["thanks",/\b(obrigad|valeu|agradec)/],
+ ["greet",/^(oi|ola|opa|bom dia|boa tarde|boa noite|e ai)\b/],
+ ["pricing",/cobrar|definir (o )?(preco|valor)|precificar|preco (do|no) (meu )?anuncio/],
+ ["calSeller",/(disponibilidade|calendario|agenda).*(minha|meu|anuncio\b)|(minha|meu|anuncio\b).*(disponibilidade|calendario|agenda)/],
+ ["verification",/verific|seguranc|seguro|documento|reconhecimento|facial|golpe|confia|fraude|identidade/],
+ ["payment",/pagament|pagar|parcel|caucao|protegid|cartao|\bpix\b|boleto|reembols/],
+ ["favorites",/favorit|guardar anuncio|salvar anuncio/],
+ ["reviews",/avalia|nota|reputac|estrela|comentario/],
+ ["contact",/contato|contatar|\bchat\b|conversar|falar com|mensagem|telefone|whatsapp|negociar/],
+ ["announce",/\banunci(ar|ei|o|os|ando)\b|publicar|cadastrar|vender (minha|meu)|alugar (minha|meu)|oferecer (meu|um|uma)/],
+ ["resolve",/nao (estou )?(consigo|conseguindo|encontro|acho|aparece|funciona|carrega)|problema|\berro\b|\bbug\b|travou|dificuldade|ajuda com/],
+ ["calendar",/disponi(b|v)|agenda|calendario|reserv|livre|ocupad/],
+ ["recommend",/recomend|indic[ao]|nao sei qual|melhor (opcao|maquina|equipamento)|sugest|aconselh|qual (equipamento|maquina|modelo)|o que usar/],
+ ["price",/quanto (custa|sai)|preco|valor|barato|orcamento|custo|\bcaro\b/],
+ ["location",/perto|cidade|regiao|\bcep\b|entrega|frete|longe/],
+ ["filters",/filtro|filtrar|pesquis|ordenar|categoria/],
+ ["explore",/funcionalidade|recurso|o que (o )?rumo|o que e (o )?rumo|como funciona|dica|novidade|o que posso|explorar|conhecer/],
+ ["find",/procur|encontr|buscar|busca|achar|\bacho\b|preciso de|precisando|alugar|comprar|contratar|tem (algum|alguma)|\bonde\b/]
+];
+
+/* ---------- 4. MOTOR (provider local) ---------- */
+// Para usar uma IA real no futuro: window.RumoAssistant.setProvider({reply:async req=>({text,chips})})
+const localProvider={
+  reply(req){return Promise.resolve(route(req.text,req.ctx,req.forced))}
+};
+function route(text,ctx,forced){
+  const t=N(text),e=findEnt(t),date=findDate(t);
+  if(e)ctx.ent=e;
+  if(ctx.flow&&!forced){const r=recStep(ctx,t,false);if(r)return r}
+  let id=forced||(INTENTS.find(i=>i[1].test(t))||[])[0]||(e?"find":null);
+  if(id==="recommend"){ctx.flow={area:null,task:null,freq:null};ctx.last=id;return recStep(ctx,t,true)}
+  if(!id){if(ctx.flow)return recNext(ctx,true);id="fallback"}
+  ctx.flow=null;
+  const n=ctx.count[id]=(ctx.count[id]||0)+1;
+  ctx.last=id;
+  return H[id]({ctx,t,ent:e,date,n:n-1});
+}
+
+/* ---------- 5. INTERFACE ---------- */
+const $=id=>document.getElementById(id);
+const wrap=$("ar"),fab=$("arFab"),win=$("arWin"),hd=$("arHd"),msgs=$("arMsgs"),inp=$("arInp"),minBtn=$("arMin"),callEl=$("arCall");
+const st={open:false,min:false,started:false,hist:[],ctx:{mode:null,flow:null,ent:null,last:null,count:{}}};
+let provider=localProvider,queue=Promise.resolve();
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const isMobile=()=>window.matchMedia(CFG.mobileMQ).matches;
+const toBottom=()=>{msgs.scrollTop=msgs.scrollHeight};
+
+// Ações que conectam o assistente à página (filtros, busca, ordenação)
+const siteQ=()=>$("q"),siteOrd=()=>$("ord");
+const ACT={
+  search(v){siteQ().value=v;setCat("");setTipo("todos");go();return`Pronto! Busquei por “${v}” nos anúncios.`},
+  tipo(v){siteQ().value="";setCat("");setTipo(v);go();return"Pronto! Filtrei os anúncios por "+({aluguel:"aluguel",venda:"venda",servico:"serviços",todos:"todos os tipos"})[v]+"."},
+  cat(v){siteQ().value="";setCat(v);go();return`Pronto! Mostrando a categoria ${typeof CN!=="undefined"&&CN[v]?CN[v][1]:v}.`},
+  clear(){siteQ().value="";siteOrd().value="rel";setCat("");setTipo("todos");go();return"Pronto! Limpei a busca e os filtros."},
+  sort(v){siteOrd().value=v;render();go();return"Pronto! Ordenei os anúncios por "+(v==="asc"?"menor preço.":"maior preço.")},
+  section(v){const el=$(v);if(el)el.scrollIntoView();return"Pronto! Levei você até a área de anúncio."}
+};
+
+function addBubble(role,html,cls){const d=document.createElement("div");d.className="ar-m ar-"+role+(cls?" "+cls:"");d.innerHTML=html;msgs.appendChild(d);toBottom();return d}
+function clearChips(){msgs.querySelectorAll(".ar-chips").forEach(n=>n.remove())}
+function addChips(list){
+  if(!list||!list.length)return;
+  const box=document.createElement("div");box.className="ar-chips";
+  list.forEach(c=>{
+    c=typeof c==="string"?{l:c,q:c}:c;
+    const b=document.createElement("button");b.type="button";b.className="ar-chip"+(c.a?" ar-act":"");b.textContent=c.l;
+    b.onclick=()=>c.a?runAct(c):ask(c.q||c.l);
+    box.appendChild(b);
+  });
+  msgs.appendChild(box);toBottom();
+}
+function addBot(r){st.hist.push({role:"assistant",text:r.text});addBubble("bot",fmt(r.text));addChips(r.chips)}
+function addUser(text){st.hist.push({role:"user",text});addBubble("user",esc(text))}
+function addWelcome(){
+  addBubble("bot",'<strong class="ar-wt">Olá! Seja bem-vindo ao RUMO!</strong><p>Sou seu assistente virtual e estou aqui para facilitar sua experiência na plataforma.</p><p>Posso ajudar você a:</p><ul><li>Encontrar máquinas, ferramentas e serviços.</li><li>Descobrir qual equipamento atende melhor às suas necessidades.</li><li>Aprender a anunciar seus produtos e serviços.</li><li>Entender a disponibilidade dos equipamentos.</li><li>Resolver dúvidas sobre o funcionamento do RUMO.</li></ul><p>Você pode escrever sua dúvida livremente ou escolher uma das opções disponíveis para começar.</p><p><strong>Como posso ajudar você hoje?</strong></p>',"ar-welcome");
+}
+function typing(on){
+  const old=msgs.querySelector(".ar-typing");if(old)old.remove();
+  if(on){const d=document.createElement("div");d.className="ar-m ar-bot ar-typing";d.setAttribute("aria-label","O assistente está digitando");d.innerHTML='<div class="ar-dots"><i></i><i></i><i></i></div>';d.style.padding="0";msgs.appendChild(d);toBottom()}
+}
+function runAct(c){
+  let m;try{m=ACT[c.a](c.v)}catch(e){m="Não consegui aplicar essa ação agora. Tente usar os filtros da página."}
+  addBot({text:m});
+  if(isMobile())setMin(true);
+}
+function ask(text,forced){
+  text=String(text).trim();if(!text)return;
+  clearChips();addUser(text);
+  queue=queue.then(()=>answer(text,forced));
+}
+async function answer(text,forced){
+  typing(true);const t0=Date.now();let r;
+  try{r=await provider.reply({text,forced,ctx:st.ctx,history:st.hist,page:DataSource.getPageContext()})}
+  catch(e){r={text:"Tive um problema para responder agora. Tente novamente em instantes."}}
+  const want=CFG.typing[0]+Math.min(r.text.length*3,CFG.typing[1]-CFG.typing[0]);
+  await sleep(Math.max(0,want-(Date.now()-t0)));
+  typing(false);addBot(r);
+}
+
+/* modos de assistência */
+const modesEl=$("arModes");
+MODES.forEach(m=>{
+  const b=document.createElement("button");b.type="button";b.className="ar-mode";b.dataset.mode=m.id;b.setAttribute("aria-pressed","false");
+  b.innerHTML='<svg><use href="#'+m.icon+'"/></svg>'+m.label;
+  b.onclick=()=>{setMode(m);st.ctx.flow=null;ask(m.prompt,m.intent)};
+  modesEl.appendChild(b);
+});
+function setMode(m){
+  st.ctx.mode=m.id;inp.placeholder=m.ph;
+  modesEl.querySelectorAll(".ar-mode").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mode===m.id)));
+}
+
+/* abrir, minimizar, fechar */
+function setMin(v){
+  st.min=v;win.classList.toggle("min",v);
+  minBtn.setAttribute("aria-label",v?"Expandir conversa":"Minimizar conversa");
+  minBtn.firstElementChild.firstElementChild.setAttribute("href",v?"#ar-max":"#ar-min");
+  if(!v){toBottom();if(!isMobile())inp.focus({preventScroll:true})}
+}
+function open(){
+  if(!st.open){
+    st.open=true;win.classList.add("open");wrap.classList.add("is-open");
+    win.setAttribute("aria-hidden","false");fab.setAttribute("aria-expanded","true");callEl.classList.remove("show");
+  }
+  if(st.min)setMin(false);
+  if(!st.started){st.started=true;intro()}
+  setTimeout(()=>{if(!isMobile())inp.focus({preventScroll:true})},240);
+}
+function close(){
+  if(!st.open)return;
+  st.open=false;win.classList.remove("open","min");st.min=false;wrap.classList.remove("is-open");
+  win.setAttribute("aria-hidden","true");fab.setAttribute("aria-expanded","false");setMin(false);fab.focus({preventScroll:true});
+}
+function intro(){
+  const seen=ls.get(CFG.introKey);
+  queue=queue.then(async()=>{
+    typing(true);await sleep(seen?600:1100);typing(false);
+    if(!seen){addWelcome();ls.set(CFG.introKey,"1")}
+    else addBot({text:"Olá de novo! Em que posso ajudar? Escolha um modo de assistência ou escreva sua dúvida."});
+  });
+}
+
+fab.onclick=open;callEl.onclick=e=>{if(!e.target.closest(".ar-callx"))open()};
+$("arCallX").onclick=e=>{e.stopPropagation();callEl.classList.remove("show")};
+minBtn.onclick=()=>setMin(!st.min);
+$("arClose").onclick=close;
+hd.addEventListener("click",e=>{if(st.min&&!e.target.closest("button"))setMin(false)});
+win.addEventListener("keydown",e=>{if(e.key==="Escape"){e.stopPropagation();close()}});
+$("arForm").onsubmit=e=>{e.preventDefault();const v=inp.value;inp.value="";ask(v)};
+
+// Chamada "Precisa de ajuda?": aparece uma vez e some sozinha
+setTimeout(()=>{if(!st.open)callEl.classList.add("show")},1500);
+setTimeout(()=>callEl.classList.remove("show"),13000);
+
+window.RumoAssistant={open,close,setProvider:p=>{provider=p},dataSource:DataSource};
+})();
+</script>
+</body>
+</html>
